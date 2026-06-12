@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Typography, Card, Anchor, Alert, Tag } from 'antd'
-import { PageHeader } from '../components/common'
+import { Typography, Card, Alert, Tag } from 'antd'
+import { PageHeader, JumpBar } from '../components/common'
 import { newpets } from '../data'
 
 const { Title, Text } = Typography
@@ -22,11 +22,10 @@ export default function NewPets() {
       <Alert type="info" showIcon style={{ marginBottom: 14 }}
         message="技能描述中括号内为满级数值；底部绿色为获取/涅槃方式。" />
 
-      <Anchor direction="horizontal" style={{ marginBottom: 16 }}
-        items={newpets.map((s) => ({ key: s.title, href: `#${s.title}`, title: s.title }))} />
+      <JumpBar items={newpets.map((s, i) => ({ id: `ns${i}`, label: s.title }))} />
 
-      {newpets.map((s) => (
-        <div key={s.title} id={s.title} style={{ scrollMarginTop: 80, marginBottom: 22 }}>
+      {newpets.map((s, i) => (
+        <div key={s.title} id={`ns${i}`} style={{ marginBottom: 22 }}>
           <Title level={3}>{s.title} <Tag>{s.cards.length}</Tag></Title>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 14 }}>
             {s.cards.map((c, i) => (

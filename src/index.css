@@ -27,8 +27,16 @@ img { max-width: 100%; }
 .name-pills { display: flex; flex-wrap: wrap; gap: 6px; }
 .name-pills a { font-size: 12.5px; }
 
-/* sticky toc jump bar */
+/* toc jump bar */
 .toc-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px; }
+.toc-jump .jump-pill {
+  font-size: 13px; padding: 3px 12px; border-radius: 999px; line-height: 1.6;
+  background: rgba(91,124,255,.1); border: 1px solid rgba(91,124,255,.3); color: #5b7cff;
+}
+.toc-jump .jump-pill:hover { background: rgba(91,124,255,.2); text-decoration: none; }
+.dark .toc-jump .jump-pill { color: #aebfff; }
+/* every anchor target clears the sticky header */
+[id] { scroll-margin-top: 80px; }
 
 .hero {
   border-radius: 16px; padding: 40px 36px; color: #fff;

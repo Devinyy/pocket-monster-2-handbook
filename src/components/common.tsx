@@ -4,6 +4,37 @@ import { imgUrl } from '../data'
 
 const { Title, Paragraph } = Typography
 
+// 平滑滚动到页内锚点；阻止默认行为，避免 HashRouter 下 location.hash 被改写导致路由跳变
+export function scrollToId(id: string, e?: { preventDefault: () => void }) {
+  e?.preventDefault()
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+// 横向锚点跳转条（替代 antd Anchor 的 affix，避免吸顶遮挡 + hash 冲突）
+export function JumpBar({ items }: { items: { id: string; label: string }[] }) {
+  return (
+    <div className="toc-jump">
+      {items.map((it) => (
+        <a key={it.id} href={`#${it.id}`} className="jump-pill" onClick={(e) => scrollToId(it.id, e)}>
+          {it.label}
+        </a>
+      ))}
+    </div>
+  )
+}
+
+// 名称索引药丸（点击平滑滚动到对应锚点）
+export function NamePills({ items }: { items: { id: string; label: string }[] }) {
+  return (
+    <div className="name-pills">
+      {items.map((it, i) => (
+        <a key={it.id + i} href={`#${it.id}`} onClick={(e) => scrollToId(it.id, e)}>{it.label}</a>
+      ))}
+    </div>
+  )
+}
+
 export function PageHeader({ title, sub }: { title: string; sub?: string }) {
   return (
     <div style={{ marginBottom: 18 }}>

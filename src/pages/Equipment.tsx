@@ -1,5 +1,5 @@
 import { Typography, Table, Alert, Image } from 'antd'
-import { PageHeader } from '../components/common'
+import { PageHeader, NamePills } from '../components/common'
 import { equipment, imgUrl } from '../data'
 
 const { Title } = Typography
@@ -35,15 +35,13 @@ export default function Equipment() {
         dataSource={combos.map((c, i) => ({ ...c, key: i }))} />
 
       <Title level={3} style={{ marginTop: 24 }}>套装 · 卡套图鉴</Title>
-      <div className="name-pills" style={{ marginBottom: 12 }}>
-        {equipment.filter((e) => e.isHead).map((e) => (
-          <a key={e.page} href={`#eq${e.page}`}>{e.title}</a>
-        ))}
+      <div style={{ marginBottom: 12 }}>
+        <NamePills items={equipment.filter((e) => e.isHead).map((e) => ({ id: `eq${e.page}`, label: e.title }))} />
       </div>
       <Image.PreviewGroup>
         <div className="atlas-grid">
           {equipment.map((e) => (
-            <div className="atlas-card" key={e.page} id={`eq${e.page}`} style={{ scrollMarginTop: 80 }}>
+            <div className="atlas-card" key={e.page} id={`eq${e.page}`}>
               <Image src={imgUrl('equip', e.img)} alt={e.title} loading="lazy" style={{ display: 'block' }} />
               <div className="cap">{e.title}</div>
             </div>

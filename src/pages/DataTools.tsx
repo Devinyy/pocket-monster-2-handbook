@@ -1,6 +1,8 @@
-import { Typography, Table, Alert, Tabs, Tag, Card, Input } from 'antd'
-import { useMemo, useState } from 'react'
+import { Typography, Table, Alert, Tabs, Tag, Input } from 'antd'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { PageHeader } from '../components/common'
+import DamageCalc from '../components/DamageCalc'
 import { exp, nirvanaPets } from '../data'
 
 const { Title, Paragraph } = Typography
@@ -37,7 +39,7 @@ function ExpTable() {
         message="「升级所需」为本级升下一级所需经验；「累计总经验」为从 1 级练到该级的总和。" />
       <Input.Search placeholder="输入等级快速定位…" allowClear style={{ maxWidth: 240, marginBottom: 10 }}
         onChange={(e) => setQ(e.target.value)} />
-      <Table size="small" pagination={false} sticky scroll={{ y: 520 }} rowKey="lv"
+      <Table size="small" pagination={false} scroll={{ y: 520 }} rowKey="lv"
         columns={[
           { title: '等级', dataIndex: 'lv', width: 80 },
           { title: '升级所需经验', dataIndex: 'need', align: 'right', render: (v: number) => v.toLocaleString() },
@@ -48,11 +50,24 @@ function ExpTable() {
   )
 }
 
+const HASH_TO_TAB: Record<string, string> = {
+  '#exp': 'exp', '#price': 'price', '#dmg': 'dmg', '#nirvana': 'nirvana',
+}
+
 export default function DataTools() {
+  const loc = useLocation()
+  const [active, setActive] = useState('exp')
+  useEffect(() => {
+    const t = HASH_TO_TAB[loc.hash]
+    if (t) setActive(t)
+  }, [loc.hash])
+
   return (
     <div>
-      <PageHeader title="数值工具" sub="经验表 · 物价 · 伤害公式 · 涅槃加成名单" />
+      <PageHeader title="数值工具" sub="经验表 · 物价 · 伤害计算器 · 涅槃加成名单" />
       <Tabs
+        activeKey={active}
+        onChange={setActive}
         items={[
           {
             key: 'exp', label: '⏫ 等级经验表',
@@ -75,18 +90,11 @@ export default function DataTools() {
             ),
           },
           {
-            key: 'dmg', label: '⚔️ 伤害计算',
+            key: 'dmg', label: '⚔️ 伤害计算器',
             children: (
               <div id="dmg">
-                <Card size="small" style={{ marginBottom: 14 }}>
-                  <Paragraph code style={{ whiteSpace: 'normal' }}>
-                    伤害 = 牧场面板 × 攻击系数(装备+宝石+卡片+称号+1倍初始) × 加深系数(1+装备+宝石+卡片+技能+称号) × 浮动 × 暴击倍率
-                  </Paragraph>
-                  <Paragraph style={{ marginBottom: 0 }}>
-                    <b>提升技巧：</b>由不等式「a+b=k 时 a·b 在 a、b 越接近时越大」——<b>攻击与加深两项数值差距越小，伤害提升越大</b>。例如攻击×加深为 11.72×8.15 时，仍应优先补加深（5×5 &gt; 4×6）。
-                  </Paragraph>
-                </Card>
-                <Title level={5}>套装基础倍率参考</Title>
+                <DamageCalc />
+                <Title level={5} style={{ marginTop: 22 }}>套装基础倍率参考</Title>
                 <Table size="small" pagination={false} style={{ maxWidth: 520, marginBottom: 16 }} rowKey="key"
                   columns={[{ title: '套装', dataIndex: 0 }, { title: '攻击', dataIndex: 1, align: 'right' },
                     { title: '加深', dataIndex: 2, align: 'right' }, { title: '命中', dataIndex: 3, align: 'right' }]}

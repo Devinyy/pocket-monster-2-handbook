@@ -42,9 +42,9 @@ function buildIndex(): SearchItem[] {
   petsAtlas.forEach((s) =>
     s.pets.forEach((p) =>
       items.push({ name: p.name, path: `/pets#p${p.page}`, cat: '宠物图鉴', kw: s.series })))
-  newpets.forEach((s) =>
+  newpets.forEach((s, i) =>
     s.cards.forEach((c) =>
-      items.push({ name: c.name, path: `/newpets#${encodeURIComponent(s.title)}`, cat: '新宠技能', kw: s.title })))
+      items.push({ name: c.name, path: `/newpets#ns${i}`, cat: '新宠技能', kw: s.title })))
   tasksAtlas.index.forEach((t) =>
     items.push({ name: t.name, path: `/tasks#tp${t.page}`, cat: '专属任务' }))
   boss.forEach((r) =>

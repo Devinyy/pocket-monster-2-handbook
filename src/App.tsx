@@ -114,14 +114,14 @@ export default function App() {
     >
       <Layout style={{ minHeight: '100vh' }} className={dark ? 'dark' : ''}>
         {!isMobile && (
-          <Sider theme={dark ? 'dark' : 'light'} width={232} style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'auto', borderInlineEnd: '1px solid rgba(127,127,127,.15)' }}>
+          <Sider theme={dark ? 'dark' : 'light'} width={232} style={{ position: 'sticky', top: 0, zIndex: 11, height: '100vh', overflow: 'auto', borderInlineEnd: '1px solid rgba(127,127,127,.15)' }}>
             {brand}
             {menu}
           </Sider>
         )}
         <Layout>
           <Header style={{
-            position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', gap: 12,
+            position: 'sticky', top: 0, zIndex: 20, display: 'flex', alignItems: 'center', gap: 12,
             padding: isMobile ? '0 14px' : '0 24px',
             background: dark ? '#141414' : '#fff',
             borderBottom: '1px solid rgba(127,127,127,.15)',
