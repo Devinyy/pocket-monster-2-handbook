@@ -1,0 +1,76 @@
+// 统一数据入口：导入 src/data/*.json（由 `npm run data` 从 web-data 生成），
+// 并构建全站搜索索引。
+import expJson from './data/exp.json'
+import nirvanaJson from './data/nirvanaPets.json'
+import bossJson from './data/boss.json'
+import petsAtlasJson from './data/petsAtlas.json'
+import tasksAtlasJson from './data/tasksAtlas.json'
+import equipmentJson from './data/equipment.json'
+import newpetsJson from './data/newpets.json'
+import galleriesJson from './data/galleries.json'
+
+export interface ExpRow { lv: number; need: number; total: number }
+export interface BossRow { place: string; boss: string; normal: string; hard: string; adv: string; single: string }
+export interface BossRegion { region: string; rows: BossRow[] }
+export interface AtlasPage { page: number; img: string }
+export interface PetSeries { series: string; pets: { name: string; page: number }[]; pages: AtlasPage[] }
+export interface TasksAtlas { index: { name: string; page: number }[]; pages: AtlasPage[] }
+export interface EquipSlide { page: number; img: string; title: string; isHead: boolean }
+export interface Skill { name: string; desc: string }
+export interface NewPetCard { name: string; skills: Skill[]; obtain: string[] }
+export interface NewPetSection { title: string; cards: NewPetCard[] }
+export interface Galleries { bomu: string[]; heshen: string[]; boss: string[] }
+
+export const exp = expJson as ExpRow[]
+export const nirvanaPets = nirvanaJson as string[]
+export const boss = bossJson as BossRegion[]
+export const petsAtlas = petsAtlasJson as PetSeries[]
+export const tasksAtlas = tasksAtlasJson as TasksAtlas
+export const equipment = equipmentJson as EquipSlide[]
+export const newpets = newpetsJson as NewPetSection[]
+export const galleries = galleriesJson as Galleries
+
+export function imgUrl(folder: string, file: string): string {
+  return `${import.meta.env.BASE_URL}img/${folder}/${file}`
+}
+
+// ---------------- 全站搜索索引 ----------------
+export interface SearchItem { name: string; path: string; cat: string; kw?: string }
+
+function buildIndex(): SearchItem[] {
+  const items: SearchItem[] = []
+  petsAtlas.forEach((s) =>
+    s.pets.forEach((p) =>
+      items.push({ name: p.name, path: `/pets#p${p.page}`, cat: '宠物图鉴', kw: s.series })))
+  newpets.forEach((s) =>
+    s.cards.forEach((c) =>
+      items.push({ name: c.name, path: `/newpets#${encodeURIComponent(s.title)}`, cat: '新宠技能', kw: s.title })))
+  tasksAtlas.index.forEach((t) =>
+    items.push({ name: t.name, path: `/tasks#tp${t.page}`, cat: '专属任务' }))
+  boss.forEach((r) =>
+    r.rows.forEach((b) =>
+      b.boss && items.push({ name: b.boss.replace(/[§★]/g, ''), path: '/boss', cat: 'BOSS', kw: b.place })))
+  equipment.forEach((e) =>
+    e.isHead && items.push({ name: e.title, path: `/equipment#eq${e.page}`, cat: '装备/卡片' }))
+  nirvanaPets.forEach((n) =>
+    items.push({ name: n, path: '/data#nirvana', cat: '涅槃加成' }))
+  // 静态页锚点
+  const statics: SearchItem[] = [
+    { name: '充值比例', path: '/guide#chongzhi', cat: '新手入门' },
+    { name: '关于交易', path: '/guide#jiaoyi', cat: '新手入门' },
+    { name: '合成攻略', path: '/guide#hecheng', cat: '新手入门' },
+    { name: '涅槃攻略', path: '/guide#nirvana', cat: '新手入门' },
+    { name: '大陆副本', path: '/guide#tips', cat: '新手入门' },
+    { name: '开包概率', path: '/guide#tips', cat: '新手入门' },
+    { name: '玄冰仙使', path: '/synthesis#xuanbing', cat: '合成/涅槃', kw: '寒江雪 华尔兹' },
+    { name: '马鲁斯', path: '/synthesis#marus', cat: '合成/涅槃', kw: '双星马 超马' },
+    { name: '波姆进化', path: '/synthesis#bomu', cat: '合成/涅槃' },
+    { name: '合神材料', path: '/synthesis#heshen', cat: '合成/涅槃' },
+    { name: '等级经验表', path: '/data#exp', cat: '数值工具' },
+    { name: '物价参考', path: '/data#price', cat: '数值工具' },
+    { name: '伤害计算', path: '/data#dmg', cat: '数值工具', kw: '公式 加深 攻击' },
+  ]
+  return items.concat(statics)
+}
+
+export const searchIndex = buildIndex()

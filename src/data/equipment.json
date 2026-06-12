@@ -1,0 +1,314 @@
+[
+ {
+  "page": 1,
+  "img": "slide-01.jpg",
+  "title": "封面",
+  "isHead": false
+ },
+ {
+  "page": 2,
+  "img": "slide-02.jpg",
+  "title": "仙侠套装",
+  "isHead": true
+ },
+ {
+  "page": 3,
+  "img": "slide-03.jpg",
+  "title": "仙侠套装",
+  "isHead": false
+ },
+ {
+  "page": 4,
+  "img": "slide-04.jpg",
+  "title": "女神套装",
+  "isHead": true
+ },
+ {
+  "page": 5,
+  "img": "slide-05.jpg",
+  "title": "女神套装",
+  "isHead": false
+ },
+ {
+  "page": 6,
+  "img": "slide-06.jpg",
+  "title": "圣婵十件套装",
+  "isHead": true
+ },
+ {
+  "page": 7,
+  "img": "slide-07.jpg",
+  "title": "圣婵十件套装",
+  "isHead": false
+ },
+ {
+  "page": 8,
+  "img": "slide-08.jpg",
+  "title": "自然套装",
+  "isHead": true
+ },
+ {
+  "page": 9,
+  "img": "slide-09.jpg",
+  "title": "自然套装",
+  "isHead": false
+ },
+ {
+  "page": 10,
+  "img": "slide-10.jpg",
+  "title": "觉醒ss10件套",
+  "isHead": true
+ },
+ {
+  "page": 11,
+  "img": "slide-11.jpg",
+  "title": "觉醒ss10件套",
+  "isHead": false
+ },
+ {
+  "page": 12,
+  "img": "slide-12.jpg",
+  "title": "SS10件套装",
+  "isHead": true
+ },
+ {
+  "page": 13,
+  "img": "slide-13.jpg",
+  "title": "SS10件套装",
+  "isHead": false
+ },
+ {
+  "page": 14,
+  "img": "slide-14.jpg",
+  "title": "EFS10件套",
+  "isHead": true
+ },
+ {
+  "page": 15,
+  "img": "slide-15.jpg",
+  "title": "EFS10件套",
+  "isHead": false
+ },
+ {
+  "page": 16,
+  "img": "slide-16.jpg",
+  "title": "厄菲斯神套10件装",
+  "isHead": true
+ },
+ {
+  "page": 17,
+  "img": "slide-17.jpg",
+  "title": "厄菲斯神套10件装",
+  "isHead": false
+ },
+ {
+  "page": 18,
+  "img": "slide-18.jpg",
+  "title": "玲珑套装",
+  "isHead": true
+ },
+ {
+  "page": 19,
+  "img": "slide-19.jpg",
+  "title": "玲珑套装",
+  "isHead": false
+ },
+ {
+  "page": 20,
+  "img": "slide-20.jpg",
+  "title": "阿尔提套装",
+  "isHead": true
+ },
+ {
+  "page": 21,
+  "img": "slide-21.jpg",
+  "title": "阿尔提套装",
+  "isHead": false
+ },
+ {
+  "page": 22,
+  "img": "slide-22.jpg",
+  "title": "情改9件套",
+  "isHead": true
+ },
+ {
+  "page": 23,
+  "img": "slide-23.jpg",
+  "title": "情改9件套",
+  "isHead": false
+ },
+ {
+  "page": 24,
+  "img": "slide-24.jpg",
+  "title": "幽蜚R-01专属四件",
+  "isHead": true
+ },
+ {
+  "page": 25,
+  "img": "slide-25.jpg",
+  "title": "神恩套装",
+  "isHead": true
+ },
+ {
+  "page": 26,
+  "img": "slide-26.jpg",
+  "title": "TT散件",
+  "isHead": true
+ },
+ {
+  "page": 27,
+  "img": "slide-27.jpg",
+  "title": "黑魔套",
+  "isHead": true
+ },
+ {
+  "page": 28,
+  "img": "slide-28.jpg",
+  "title": "重影三件套",
+  "isHead": true
+ },
+ {
+  "page": 29,
+  "img": "slide-29.jpg",
+  "title": "沉睡首饰套",
+  "isHead": true
+ },
+ {
+  "page": 30,
+  "img": "slide-30.jpg",
+  "title": "国王套装",
+  "isHead": true
+ },
+ {
+  "page": 31,
+  "img": "slide-31.jpg",
+  "title": "皇后套装",
+  "isHead": true
+ },
+ {
+  "page": 32,
+  "img": "slide-32.jpg",
+  "title": "熔岩套装",
+  "isHead": true
+ },
+ {
+  "page": 33,
+  "img": "slide-33.jpg",
+  "title": "诅咒神器套装",
+  "isHead": true
+ },
+ {
+  "page": 34,
+  "img": "slide-34.jpg",
+  "title": "诅咒神器套装",
+  "isHead": false
+ },
+ {
+  "page": 35,
+  "img": "slide-35.jpg",
+  "title": "游梦套装",
+  "isHead": true
+ },
+ {
+  "page": 36,
+  "img": "slide-36.jpg",
+  "title": "婵娟神器套装",
+  "isHead": true
+ },
+ {
+  "page": 37,
+  "img": "slide-37.jpg",
+  "title": "08北京奥运套",
+  "isHead": true
+ },
+ {
+  "page": 38,
+  "img": "slide-38.jpg",
+  "title": "神圣战场套装",
+  "isHead": true
+ },
+ {
+  "page": 39,
+  "img": "slide-39.jpg",
+  "title": "桀骜套装（家族商店）",
+  "isHead": true
+ },
+ {
+  "page": 40,
+  "img": "slide-40.jpg",
+  "title": "桀骜套装（家族商店）",
+  "isHead": false
+ },
+ {
+  "page": 41,
+  "img": "slide-41.jpg",
+  "title": "群雄套装（家族商店）",
+  "isHead": true
+ },
+ {
+  "page": 42,
+  "img": "slide-42.jpg",
+  "title": "杂的散套",
+  "isHead": true
+ },
+ {
+  "page": 43,
+  "img": "slide-43.jpg",
+  "title": "杂的散套",
+  "isHead": false
+ },
+ {
+  "page": 44,
+  "img": "slide-44.jpg",
+  "title": "杂的散套",
+  "isHead": false
+ },
+ {
+  "page": 45,
+  "img": "slide-45.jpg",
+  "title": "杂的散套",
+  "isHead": false
+ },
+ {
+  "page": 46,
+  "img": "slide-46.jpg",
+  "title": "初始仙侠卡套",
+  "isHead": true
+ },
+ {
+  "page": 47,
+  "img": "slide-47.jpg",
+  "title": "仙侠卡套",
+  "isHead": true
+ },
+ {
+  "page": 48,
+  "img": "slide-48.jpg",
+  "title": "女神卡套",
+  "isHead": true
+ },
+ {
+  "page": 49,
+  "img": "slide-49.jpg",
+  "title": "马鲁斯卡套",
+  "isHead": true
+ },
+ {
+  "page": 50,
+  "img": "slide-50.jpg",
+  "title": "天魔卡套",
+  "isHead": true
+ },
+ {
+  "page": 51,
+  "img": "slide-51.jpg",
+  "title": "黑白卡套",
+  "isHead": true
+ },
+ {
+  "page": 52,
+  "img": "slide-52.jpg",
+  "title": "新年牛卡",
+  "isHead": true
+ }
+]

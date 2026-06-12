@@ -1,0 +1,41 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', Roboto, sans-serif;
+}
+img { max-width: 100%; }
+
+/* page heading helpers */
+.page-h { margin: 0 0 4px; }
+.page-sub { color: var(--sub, #888); margin: 0 0 20px; }
+
+/* formula chips */
+.formula-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 7px 0; }
+.chip { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 13px;
+  background: rgba(127,127,127,.12); border: 1px solid rgba(127,127,127,.25); white-space: nowrap; }
+.chip-res { background: rgba(108,140,255,.18); border-color: #6c8cff; color: #3858d6; font-weight: 600; }
+.dark .chip-res { color: #aebfff; }
+.op { color: #999; font-weight: 700; padding: 0 1px; }
+
+/* atlas gallery */
+.atlas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.atlas-card { border-radius: 10px; overflow: hidden; border: 1px solid rgba(127,127,127,.18); background: #fff; }
+.dark .atlas-card { background: #1f1f1f; }
+.atlas-card .cap { padding: 6px 10px; font-size: 12px; color: #888; border-top: 1px solid rgba(127,127,127,.15); }
+
+/* name index pills */
+.name-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.name-pills a { font-size: 12.5px; }
+
+/* sticky toc jump bar */
+.toc-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px; }
+
+.hero {
+  border-radius: 16px; padding: 40px 36px; color: #fff;
+  background: linear-gradient(120deg, #4b6cff 0%, #7d5cff 55%, #b06cff 100%);
+  box-shadow: 0 12px 30px rgba(80,90,200,.25);
+}
+
+/* scrollbar polish */
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: rgba(127,127,127,.35); border-radius: 5px; }
