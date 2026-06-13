@@ -4,7 +4,7 @@ import { Layout, Menu, ConfigProvider, theme as antdTheme, AutoComplete, Input, 
 import {
   HomeOutlined, RocketOutlined, ExperimentOutlined, BugOutlined, FireOutlined,
   FileTextOutlined, SafetyOutlined, BarChartOutlined, ThunderboltOutlined,
-  SearchOutlined, MenuOutlined, BulbOutlined, BulbFilled,
+  SearchOutlined, MenuOutlined, BulbOutlined, BulbFilled, EnvironmentOutlined,
 } from '@ant-design/icons'
 import zhCN from 'antd/locale/zh_CN'
 import { searchIndex } from './data'
@@ -15,6 +15,7 @@ import Synthesis from './pages/Synthesis'
 import Pets from './pages/Pets'
 import NewPets from './pages/NewPets'
 import Tasks from './pages/Tasks'
+import Maps from './pages/Maps'
 import Boss from './pages/Boss'
 import Equipment from './pages/Equipment'
 import DataTools from './pages/DataTools'
@@ -29,6 +30,7 @@ const MENU = [
   { key: '/pets', icon: <BugOutlined />, label: '宠物图鉴' },
   { key: '/newpets', icon: <ThunderboltOutlined />, label: '新宠技能库' },
   { key: '/tasks', icon: <FileTextOutlined />, label: '专属任务' },
+  { key: '/maps', icon: <EnvironmentOutlined />, label: '地图图鉴' },
   { key: '/boss', icon: <FireOutlined />, label: 'BOSS 图鉴' },
   { key: '/equipment', icon: <SafetyOutlined />, label: '装备 · 卡片' },
   { key: '/data', icon: <BarChartOutlined />, label: '数值工具' },
@@ -37,6 +39,7 @@ const MENU = [
 const CAT_COLOR: Record<string, string> = {
   宠物图鉴: 'blue', 新宠技能: 'purple', 专属任务: 'gold', BOSS: 'red',
   '装备/卡片': 'green', 涅槃加成: 'magenta', 新手入门: 'cyan', '合成/涅槃': 'geekblue', 数值工具: 'orange',
+  地图: 'green', 副本: 'volcano', 材料: 'gold',
 }
 
 function GlobalSearch() {
@@ -141,6 +144,7 @@ export default function App() {
               <Route path="/pets" element={<Pets />} />
               <Route path="/newpets" element={<NewPets />} />
               <Route path="/tasks" element={<Tasks />} />
+              <Route path="/maps" element={<Maps />} />
               <Route path="/boss" element={<Boss />} />
               <Route path="/equipment" element={<Equipment />} />
               <Route path="/data" element={<DataTools />} />

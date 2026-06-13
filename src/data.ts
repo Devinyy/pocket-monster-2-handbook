@@ -8,6 +8,7 @@ import tasksAtlasJson from './data/tasksAtlas.json'
 import equipmentJson from './data/equipment.json'
 import newpetsJson from './data/newpets.json'
 import galleriesJson from './data/galleries.json'
+import { oldMaps, newMaps, dungeons, materials } from './data/maps'
 
 export interface ExpRow { lv: number; need: number; total: number }
 export interface BossRow { place: string; boss: string; normal: string; hard: string; adv: string; single: string }
@@ -55,6 +56,15 @@ function buildIndex(): SearchItem[] {
     e.isHead && items.push({ name: e.title, path: `/equipment#eq${e.page}`, cat: '装备/卡片' }))
   nirvanaPets.forEach((n) =>
     items.push({ name: n, path: '/data#nirvana', cat: '涅槃加成' }))
+  // 地图：地图名 + 怪物 + 掉落关键词
+  ;[...oldMaps, ...newMaps].forEach((m) => {
+    const kw = [...m.monsters, ...m.drops, ...m.boss].join(' ')
+    items.push({ name: m.name, path: '/maps', cat: '地图', kw })
+  })
+  dungeons.forEach((d) =>
+    items.push({ name: d.name, path: '/maps', cat: '副本', kw: d.boss.join(' ') }))
+  materials.forEach((mt) =>
+    items.push({ name: mt.name, path: '/maps', cat: '材料', kw: mt.where }))
   // 静态页锚点
   const statics: SearchItem[] = [
     { name: '充值比例', path: '/guide#chongzhi', cat: '新手入门' },

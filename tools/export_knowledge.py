@@ -366,6 +366,22 @@ def build_data():
     write_md('08-数值-经验物价伤害.md', '\n'.join(lines))
 
 # ---------------- 索引 + chunks ----------------
+def build_maps():
+    src = os.path.join(ROOT, 'docs', 'ziliao', '地图怪物掉落与养号攻略.md')
+    if not os.path.exists(src):
+        return
+    with open(src, encoding='utf-8') as f:
+        md = f.read()
+    write_md('09-地图图鉴.md', md)
+    # 按 ## / ### 标题分块
+    for i, sec in enumerate(re.split(r'\n(?=#{2,3} )', md)):
+        sec = sec.strip()
+        if not sec or sec.startswith('# '):
+            continue
+        title = sec.splitlines()[0].lstrip('# ').strip()
+        chunk(f'map-{i}', f'地图图鉴 · {title}', '地图',
+              sec, '地图怪物掉落与养号攻略（玩家收集）')
+
 def build_index():
     readme = """# 口袋怪兽2 知识库（AI 可读）
 
@@ -380,6 +396,7 @@ def build_index():
 - `06-BOSS图鉴.md` —— 三大区域 BOSS 血量
 - `07-装备卡片.md` —— 装备搭配数值与套装/卡套清单
 - `08-数值-经验物价伤害.md` —— 经验表/物价/伤害公式/涅槃加成名单
+- `09-地图图鉴.md` —— 地图怪物与掉落/大陆副本/材料速查/养号账号
 - `chunks.jsonl` —— 上述内容的分块文档，每行一个 JSON：`{id,title,category,source,text}`，可直接做 embedding 入库
 
 ## 使用建议
@@ -401,5 +418,6 @@ if __name__ == '__main__':
     build_boss()
     build_equip()
     build_data()
+    build_maps()
     build_index()
     print('Knowledge base ready.')

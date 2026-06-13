@@ -10,6 +10,7 @@ const CATS = [
   { path: '/pets', emoji: '🐲', title: '宠物图鉴', desc: '仙侠 / 女神 / 封神 / 三国 系列大百科' },
   { path: '/newpets', emoji: '✨', title: '新宠技能库', desc: '超神宠与卡片宠技能详情、获取方式' },
   { path: '/tasks', emoji: '📜', title: '专属任务', desc: '各神宠专属任务完整步骤' },
+  { path: '/maps', emoji: '🗺️', title: '地图图鉴', desc: '地图怪物掉落 · 副本 · 材料速查养号' },
   { path: '/boss', emoji: '👹', title: 'BOSS 图鉴', desc: '三大区域 BOSS 与各难度血量' },
   { path: '/equipment', emoji: '🛡️', title: '装备 · 卡片', desc: '逐光服全套装 / 卡套与搭配参考' },
   { path: '/data', emoji: '📊', title: '数值工具', desc: '经验表 · 物价 · 伤害公式' },

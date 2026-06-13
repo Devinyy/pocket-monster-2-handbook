@@ -1,4 +1,5 @@
 import { Typography, Alert, Table, Card, Tag, Divider } from 'antd'
+import { Link } from 'react-router-dom'
 import { PageHeader } from '../components/common'
 import { evolveChains } from '../data/formulas'
 
@@ -101,14 +102,19 @@ export default function Guide() {
       <Table size="small" pagination={false} rowKey="d"
         columns={simpleCols([{ t: '副本', k: 'd' }, { t: '等级', k: 'lv' }, { t: 'BOSS', k: 'b' }])}
         dataSource={[
-          { d: '伊苏王的神墓', lv: 30, b: '§伊苏的梦魇§' },
-          { d: '火龙王的宫殿', lv: 50, b: '§赤色神龙§' },
-          { d: '史芬克斯密穴', lv: 70, b: '§九尾天狐§' },
-          { d: '玲珑城', lv: 85, b: '§雪羽凤凰§' },
-          { d: '厄菲斯深渊', lv: 90, b: '§受诅咒的寒江雪§' },
+          { d: '伊苏王的神墓', lv: 30, b: '伊苏的梦魇' },
+          { d: '火龙王的宫殿', lv: 50, b: '赤色神龙' },
+          { d: '史芬克斯密穴', lv: 70, b: '九尾天狐' },
+          { d: '玲珑城', lv: 85, b: '雪羽凤凰' },
+          { d: '厄菲斯深渊', lv: 90, b: '受诅咒的寒江雪 / 黑龙 / 蛇女 / 变异白虎' },
           { d: '阿尔提密林', lv: 1, b: '暗灵江雪' },
           { d: '菲拉苛地域', lv: 1, b: '菲拉苛—暗灵江雪' },
+          { d: '辉煌的大道', lv: '—', b: '爆爆卷' },
+          { d: '幻魔宫殿', lv: '—', b: '魔比翼' },
         ].map((x, i) => ({ ...x, key: i }))} />
+      <Paragraph type="secondary" style={{ marginTop: 6 }}>
+        野外地图怪物 / 掉落、材料速查与养号见 <Link to="/maps">地图图鉴</Link>。
+      </Paragraph>
       <Title level={5} style={{ marginTop: 12 }}>开包概率</Title>
       <Paragraph>开包看脸，老玩家没货再考虑开包。首推<b>自然礼包</b>（神宠概率大、属性中等）；土豪可试猴年/金鸡/凯蒂/逍遥/封神系列礼包，有几率获得高系数宠。</Paragraph>
     </div>
