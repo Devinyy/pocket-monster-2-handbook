@@ -32,45 +32,65 @@ export default function Home() {
   return (
     <div>
       <div className="hero">
-        <Title level={1} style={{ color: '#fff', marginTop: 0 }}>口袋怪兽2 · 攻略图鉴 Wiki</Title>
-        <Paragraph style={{ color: 'rgba(255,255,255,.92)', fontSize: 16, maxWidth: 680 }}>
-          超可爱宠物养成 RPG —— 宠物图鉴、合成涅槃公式、专属任务、BOSS 血量、装备卡片与数值工具，一站式查询。
-        </Paragraph>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <Tag color="white" style={{ color: '#4b6cff', fontWeight: 600 }}>双端适配</Tag>
-          <Tag color="white" style={{ color: '#4b6cff', fontWeight: 600 }}>社区整理</Tag>
-          <Tag color="white" style={{ color: '#4b6cff', fontWeight: 600 }}>持续更新</Tag>
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{
+            fontSize: 10.5, letterSpacing: 3, textTransform: 'uppercase' as const,
+            color: 'rgba(255,255,255,.6)', marginBottom: 10,
+          }}>
+            Pocket Monster 2 · Handbook
+          </div>
+          <Title level={1} style={{ color: '#fff', marginTop: 0, fontSize: 'clamp(26px, 4vw, 38px)', letterSpacing: 1 }}>
+            口袋怪兽2 · 攻略图鉴 Wiki
+          </Title>
+          <Paragraph style={{ color: 'rgba(255,255,255,.85)', fontSize: 15, maxWidth: 640, lineHeight: 1.7 }}>
+            超可爱宠物养成 RPG —— 宠物图鉴、合成涅槃公式、专属任务、BOSS 血量、装备卡片与数值工具，一站式查询。
+          </Paragraph>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 18 }}>
+            {['双端适配', '社区整理', '持续更新'].map((t) => (
+              <Tag key={t} style={{
+                background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.2)',
+                color: '#fff', borderRadius: 20, padding: '3px 14px', fontWeight: 500,
+                backdropFilter: 'blur(4px)',
+              }}>{t}</Tag>
+            ))}
+          </div>
         </div>
       </div>
 
-      <Row gutter={[16, 16]} style={{ marginTop: 22 }}>
-        <Col xs={12} sm={6}><Card><Statistic title="收录宠物" value={petCount} suffix="只" /></Card></Col>
-        <Col xs={12} sm={6}><Card><Statistic title="新宠技能" value={skillCount} suffix="只" /></Card></Col>
-        <Col xs={12} sm={6}><Card><Statistic title="BOSS" value={bossCount} suffix="个" /></Card></Col>
-        <Col xs={12} sm={6}><Card><Statistic title="经验等级" value={exp.length} suffix="级" /></Card></Col>
+      <Row gutter={[14, 14]} style={{ marginTop: 20 }} className="stat-row">
+        {[
+          { title: '收录宠物', value: petCount, suffix: '只' },
+          { title: '新宠技能', value: skillCount, suffix: '只' },
+          { title: 'BOSS', value: bossCount, suffix: '个' },
+          { title: '经验等级', value: exp.length, suffix: '级' },
+        ].map((s) => (
+          <Col xs={12} sm={6} key={s.title}>
+            <Card><Statistic title={s.title} value={s.value} suffix={s.suffix} /></Card>
+          </Col>
+        ))}
       </Row>
 
       <Title level={3} style={{ marginTop: 30 }}>全部分类</Title>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[14, 14]}>
         {CATS.map((c) => (
           <Col xs={12} sm={8} md={6} key={c.path}>
-            <Card hoverable onClick={() => navigate(c.path)} style={{ height: '100%' }}>
-              <div style={{ fontSize: 30 }}>{c.emoji}</div>
-              <div style={{ fontWeight: 600, fontSize: 16, marginTop: 8 }}>{c.title}</div>
-              <div style={{ color: '#999', fontSize: 13, marginTop: 4 }}>{c.desc}</div>
+            <Card hoverable onClick={() => navigate(c.path)} style={{ height: '100%' }} className="cat-card">
+              <div style={{ fontSize: 30, marginBottom: 4 }}>{c.emoji}</div>
+              <div style={{ fontWeight: 700, fontSize: 15.5 }}>{c.title}</div>
+              <div className="card-desc">{c.desc}</div>
             </Card>
           </Col>
         ))}
       </Row>
 
       <Title level={3} style={{ marginTop: 30 }}>游戏特色</Title>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[14, 14]}>
         {FEATURES.map((f) => (
           <Col xs={24} sm={12} md={6} key={f.t}>
             <Card style={{ height: '100%' }}>
               <div style={{ fontSize: 28 }}>{f.emoji}</div>
-              <div style={{ fontWeight: 600, fontSize: 15, margin: '8px 0 4px' }}>{f.t}</div>
-              <div style={{ color: '#999', fontSize: 13 }}>{f.d}</div>
+              <div style={{ fontWeight: 700, fontSize: 15, margin: '8px 0 4px' }}>{f.t}</div>
+              <div className="card-desc" style={{ marginTop: 0 }}>{f.d}</div>
             </Card>
           </Col>
         ))}

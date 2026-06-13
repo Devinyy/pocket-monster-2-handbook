@@ -1,62 +1,477 @@
+/* ================================================================
+   口袋怪兽2 Wiki — Game-Database Dark Theme
+   ================================================================ */
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; margin: 0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', Roboto, sans-serif;
 }
 img { max-width: 100%; }
+::selection { background: rgba(91,124,255,.3); }
 
-/* page heading helpers */
+/* ---- design tokens (dark is primary) ---- */
+:root {
+  --wiki-bg: #0c1018;
+  --wiki-bg2: #10141e;
+  --wiki-surface: #151b28;
+  --wiki-surface2: #1a2233;
+  --wiki-surface3: #212b3c;
+  --wiki-line: rgba(255,255,255,.07);
+  --wiki-line2: rgba(255,255,255,.12);
+  --wiki-tx: #e4e9f2;
+  --wiki-tx2: #9da8bc;
+  --wiki-tx3: #5e6a80;
+  --wiki-accent: #5b7cff;
+  --wiki-accent2: #7b9aff;
+  --wiki-glow: rgba(91,124,255,.18);
+  --wiki-r: 10px;
+  --wiki-r-lg: 14px;
+}
+
+/* ================================================================
+   DARK MODE OVERRIDES (body-level)
+   ================================================================ */
+.dark {
+  background:
+    radial-gradient(ellipse 1000px 400px at 72% -6%, rgba(91,124,255,.07), transparent),
+    radial-gradient(ellipse 700px 360px at 8% 2%, rgba(120,90,255,.05), transparent),
+    var(--wiki-bg) !important;
+  color: var(--wiki-tx);
+}
+/* faint grid texture */
+.dark::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(var(--wiki-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wiki-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(circle at 50% 20%, #000, transparent 75%);
+          mask-image: radial-gradient(circle at 50% 20%, #000, transparent 75%);
+  opacity: .04;
+}
+.dark .ant-layout { background: transparent !important; }
+.dark .ant-layout-content { position: relative; z-index: 1; }
+
+/* --- sidebar --- */
+.dark .ant-layout-sider {
+  background: linear-gradient(180deg, var(--wiki-bg2), var(--wiki-bg)) !important;
+  border-color: var(--wiki-line) !important;
+}
+.dark .ant-menu-inline {
+  background: transparent !important;
+  border-inline-end: none !important;
+}
+.dark .ant-menu-item {
+  border-radius: 8px !important;
+  margin: 2px 8px !important;
+  color: var(--wiki-tx2) !important;
+  transition: all .18s !important;
+}
+.dark .ant-menu-item:hover {
+  background: var(--wiki-surface2) !important;
+  color: var(--wiki-tx) !important;
+}
+.dark .ant-menu-item-selected {
+  background: linear-gradient(90deg, var(--wiki-surface3), var(--wiki-surface2)) !important;
+  color: #fff !important;
+  box-shadow: inset 3px 0 0 var(--wiki-accent);
+}
+.dark .ant-menu-item-selected .ant-menu-item-icon,
+.dark .ant-menu-item-selected .anticon {
+  color: var(--wiki-accent2) !important;
+}
+
+/* --- header --- */
+.dark .ant-layout-header {
+  background: rgba(12,16,24,.82) !important;
+  backdrop-filter: blur(14px) !important;
+  border-color: var(--wiki-line) !important;
+}
+
+/* --- cards --- */
+.dark .ant-card {
+  background: var(--wiki-surface) !important;
+  border: 1px solid var(--wiki-line) !important;
+  border-radius: var(--wiki-r-lg) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25) !important;
+  transition: transform .2s, border-color .2s, box-shadow .2s !important;
+}
+.dark .ant-card-hoverable:hover {
+  transform: translateY(-3px) !important;
+  border-color: var(--wiki-line2) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,.4), 0 0 20px -6px var(--wiki-glow) !important;
+}
+.dark .ant-card-head {
+  border-color: var(--wiki-line) !important;
+  color: var(--wiki-tx) !important;
+}
+.dark .ant-card .ant-card-head-title { font-weight: 600; }
+
+/* --- tables --- */
+.dark .ant-table { background: transparent !important; }
+.dark .ant-table-thead > tr > th,
+.dark .ant-table-thead > tr > td {
+  background: var(--wiki-bg2) !important;
+  border-color: var(--wiki-line) !important;
+  color: var(--wiki-tx3) !important;
+  font-size: 12px !important;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  font-weight: 600 !important;
+}
+.dark .ant-table-tbody > tr > td {
+  border-color: var(--wiki-line) !important;
+  color: var(--wiki-tx2) !important;
+}
+.dark .ant-table-tbody > tr:hover > td {
+  background: var(--wiki-surface2) !important;
+}
+.dark .ant-table-cell-fix-left, .dark .ant-table-cell-fix-right {
+  background: var(--wiki-surface) !important;
+}
+.dark .ant-table-summary .ant-table-cell {
+  background: rgba(91,124,255,.06) !important;
+  border-color: var(--wiki-line) !important;
+}
+
+/* --- tabs --- */
+.dark .ant-tabs-tab { color: var(--wiki-tx3) !important; transition: color .16s !important; }
+.dark .ant-tabs-tab:hover { color: var(--wiki-tx) !important; }
+.dark .ant-tabs-tab-active .ant-tabs-tab-btn { color: var(--wiki-accent) !important; font-weight: 600 !important; }
+.dark .ant-tabs-ink-bar { background: var(--wiki-accent) !important; }
+.dark .ant-tabs-nav::before { border-color: var(--wiki-line) !important; }
+
+/* --- tags --- */
+.dark .ant-tag {
+  border-radius: 6px !important;
+}
+
+/* --- alert --- */
+.dark .ant-alert {
+  border-radius: var(--wiki-r) !important;
+  border: 1px solid var(--wiki-line) !important;
+}
+.dark .ant-alert-info {
+  background: rgba(91,124,255,.08) !important;
+  border-color: rgba(91,124,255,.2) !important;
+}
+.dark .ant-alert-warning {
+  background: rgba(250,173,20,.08) !important;
+  border-color: rgba(250,173,20,.2) !important;
+}
+
+/* --- inputs / search --- */
+.dark .ant-input-affix-wrapper,
+.dark .ant-select-selector,
+.dark .ant-input-number {
+  background: var(--wiki-surface) !important;
+  border-color: var(--wiki-line2) !important;
+  transition: border-color .16s, box-shadow .16s !important;
+}
+.dark .ant-input-affix-wrapper:focus-within,
+.dark .ant-input-affix-wrapper-focused {
+  border-color: var(--wiki-accent) !important;
+  box-shadow: 0 0 0 3px var(--wiki-glow) !important;
+}
+.dark .ant-select-dropdown {
+  background: var(--wiki-surface2) !important;
+  border: 1px solid var(--wiki-line) !important;
+  border-radius: var(--wiki-r) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,.5) !important;
+}
+.dark .ant-select-item-option-active {
+  background: var(--wiki-surface3) !important;
+}
+
+/* --- statistic --- */
+.dark .ant-statistic-title { color: var(--wiki-tx3) !important; }
+.dark .ant-statistic-content { color: var(--wiki-tx) !important; }
+
+/* --- drawer --- */
+.dark .ant-drawer-content { background: var(--wiki-bg2) !important; }
+.dark .ant-drawer-header { border-color: var(--wiki-line) !important; }
+
+/* --- buttons --- */
+.dark .ant-btn-default {
+  background: var(--wiki-surface2) !important;
+  border-color: var(--wiki-line2) !important;
+  color: var(--wiki-tx) !important;
+}
+.dark .ant-btn-default:hover {
+  border-color: var(--wiki-accent) !important;
+  color: var(--wiki-accent2) !important;
+}
+
+/* --- image --- */
+.dark .ant-image {
+  border-radius: var(--wiki-r) !important;
+  overflow: hidden;
+}
+
+/* ================================================================
+   PAGE HEADING HELPERS
+   ================================================================ */
 .page-h { margin: 0 0 4px; }
-.page-sub { color: var(--sub, #888); margin: 0 0 20px; }
+.page-sub { color: var(--wiki-tx3); margin: 0 0 20px; }
 
-/* formula chips */
-.formula-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 7px 0; }
-.chip { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 13px;
-  background: rgba(127,127,127,.12); border: 1px solid rgba(127,127,127,.25); white-space: nowrap; }
-.chip-res { background: rgba(108,140,255,.18); border-color: #6c8cff; color: #3858d6; font-weight: 600; }
-.dark .chip-res { color: #aebfff; }
+/* 基础（浅色也可读）：页头为彩色横幅，白字始终清晰 */
+.page-header-wrap {
+  position: relative; overflow: hidden;
+  border-radius: var(--wiki-r-lg);
+  padding: 26px 28px;
+  margin-bottom: 22px;
+  background: linear-gradient(135deg, #5b7cff 0%, #7d5cff 60%, #b06cff 100%);
+  box-shadow: 0 6px 20px rgba(91,124,255,.22);
+}
+.page-header-wrap .glyph {
+  position: absolute; right: -6px; top: -20px;
+  font-size: 110px; font-weight: 900; line-height: 1;
+  color: rgba(255,255,255,.1); pointer-events: none;
+}
+
+.dark .page-header-wrap {
+  position: relative; overflow: hidden;
+  border-radius: var(--wiki-r-lg);
+  border: 1px solid var(--wiki-line);
+  box-shadow: 0 6px 24px rgba(0,0,0,.3);
+  background:
+    radial-gradient(480px 180px at 88% -30%, rgba(91,124,255,.16), transparent),
+    linear-gradient(160deg, var(--wiki-surface2), var(--wiki-surface));
+  padding: 26px 28px;
+  margin-bottom: 22px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.3);
+}
+.dark .page-header-wrap .glyph {
+  position: absolute; right: -6px; top: -20px;
+  font-size: 110px; font-weight: 900; line-height: 1;
+  color: rgba(255,255,255,.025); pointer-events: none;
+}
+
+/* ================================================================
+   FORMULA CHIPS
+   ================================================================ */
+.formula-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 7px 0;
+}
+.chip {
+  display: inline-block; padding: 3px 11px; border-radius: 8px; font-size: 13px;
+  background: rgba(127,127,127,.12); border: 1px solid rgba(127,127,127,.25);
+  white-space: nowrap; transition: all .15s;
+}
+.dark .chip {
+  background: var(--wiki-bg2);
+  border-color: var(--wiki-line2);
+  color: var(--wiki-tx2);
+}
+.chip-res {
+  background: rgba(108,140,255,.18); border-color: rgba(91,124,255,.4);
+  color: #3858d6; font-weight: 600;
+}
+.dark .chip-res {
+  color: var(--wiki-accent2) !important;
+  background: rgba(91,124,255,.12);
+  border-color: rgba(91,124,255,.35);
+  box-shadow: 0 0 10px -4px var(--wiki-glow);
+}
 .op { color: #999; font-weight: 700; padding: 0 1px; }
+.dark .op { color: var(--wiki-tx3); }
 
-/* atlas gallery */
-.atlas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-.atlas-card { border-radius: 10px; overflow: hidden; border: 1px solid rgba(127,127,127,.18); background: #fff; }
-.dark .atlas-card { background: #1f1f1f; }
-.atlas-card .cap { padding: 6px 10px; font-size: 12px; color: #888; border-top: 1px solid rgba(127,127,127,.15); }
+/* ================================================================
+   ATLAS GALLERY
+   ================================================================ */
+.atlas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.atlas-card {
+  border-radius: var(--wiki-r-lg); overflow: hidden;
+  border: 1px solid rgba(127,127,127,.18); background: #fff;
+  transition: transform .2s, box-shadow .2s;
+}
+.dark .atlas-card {
+  background: var(--wiki-surface);
+  border-color: var(--wiki-line);
+}
+.atlas-card:hover {
+  transform: translateY(-2px);
+}
+.dark .atlas-card:hover {
+  box-shadow: 0 6px 22px rgba(0,0,0,.35);
+  border-color: var(--wiki-line2);
+}
+.atlas-card .cap {
+  padding: 8px 12px; font-size: 12px; color: #888;
+  border-top: 1px solid rgba(127,127,127,.15);
+}
+.dark .atlas-card .cap {
+  color: var(--wiki-tx3);
+  border-color: var(--wiki-line);
+}
 
-/* name index pills */
+/* ================================================================
+   NAME INDEX PILLS
+   ================================================================ */
 .name-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-.name-pills a { font-size: 12.5px; }
+.name-pills a {
+  font-size: 12.5px; padding: 3px 10px; border-radius: 6px;
+  transition: all .15s; color: inherit;
+}
+.dark .name-pills a {
+  background: var(--wiki-surface);
+  border: 1px solid var(--wiki-line);
+  color: var(--wiki-tx2);
+}
+.dark .name-pills a:hover {
+  background: var(--wiki-surface2);
+  border-color: var(--wiki-accent);
+  color: var(--wiki-accent2);
+}
 
-/* toc jump bar —— 滚动到 Header(64px) 下方后吸顶固定 */
+/* ================================================================
+   TOC JUMP BAR
+   ================================================================ */
 .toc-jump {
   display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px;
   position: sticky; top: 64px; z-index: 9;
-  padding: 10px 12px; border-radius: 10px;
-  background: rgba(255,255,255,.82); backdrop-filter: blur(8px);
+  padding: 10px 14px; border-radius: var(--wiki-r);
+  background: rgba(255,255,255,.82); backdrop-filter: blur(10px);
   border: 1px solid rgba(127,127,127,.15);
-  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
 }
-.dark .toc-jump { background: rgba(24,24,28,.82); }
+.dark .toc-jump {
+  background: rgba(16,20,30,.85);
+  border-color: var(--wiki-line);
+  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+}
 .toc-jump .jump-pill {
-  font-size: 13px; padding: 3px 12px; border-radius: 999px; line-height: 1.6;
+  font-size: 13px; padding: 4px 14px; border-radius: 999px; line-height: 1.6;
   background: rgba(91,124,255,.1); border: 1px solid rgba(91,124,255,.3); color: #5b7cff;
+  transition: all .16s; text-decoration: none;
 }
-.toc-jump .jump-pill:hover { background: rgba(91,124,255,.2); text-decoration: none; }
-.dark .toc-jump .jump-pill { color: #aebfff; }
-/* anchor targets clear the sticky header + sticky jump bar */
+.toc-jump .jump-pill:hover {
+  background: rgba(91,124,255,.2); text-decoration: none;
+  transform: translateY(-1px);
+}
+.dark .toc-jump .jump-pill {
+  color: var(--wiki-accent2);
+  background: rgba(91,124,255,.1);
+  border-color: rgba(91,124,255,.25);
+}
+.dark .toc-jump .jump-pill:hover {
+  background: rgba(91,124,255,.18);
+  box-shadow: 0 0 12px -4px var(--wiki-glow);
+}
+
+/* anchor targets clear the sticky header + jump bar */
 [id] { scroll-margin-top: 120px; }
 
+/* ================================================================
+   HERO
+   ================================================================ */
 .hero {
-  border-radius: 16px; padding: 40px 36px; color: #fff;
+  border-radius: 18px; padding: 42px 36px; color: #fff;
+  position: relative; overflow: hidden;
+}
+.dark .hero {
+  background: linear-gradient(135deg,
+    rgba(91,124,255,.25) 0%,
+    rgba(125,92,255,.2) 40%,
+    rgba(176,108,255,.15) 80%,
+    transparent 100%),
+    var(--wiki-surface);
+  border: 1px solid var(--wiki-line);
+  box-shadow: 0 12px 40px rgba(0,0,0,.4), inset 0 0 0 1px rgba(91,124,255,.1);
+}
+.hero:not(.dark *) {
   background: linear-gradient(120deg, #4b6cff 0%, #7d5cff 55%, #b06cff 100%);
   box-shadow: 0 12px 30px rgba(80,90,200,.25);
 }
+.hero::after {
+  content: ""; position: absolute; right: -40px; top: -40px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(91,124,255,.15), transparent 70%);
+  pointer-events: none;
+}
 
-/* scrollbar polish */
-::-webkit-scrollbar { width: 9px; height: 9px; }
-::-webkit-scrollbar-thumb { background: rgba(127,127,127,.35); border-radius: 5px; }
+/* ================================================================
+   STAT CARDS ROW
+   ================================================================ */
+.stat-row .ant-card {
+  text-align: center;
+}
+.dark .stat-row .ant-card {
+  background: linear-gradient(180deg, var(--wiki-surface2), var(--wiki-surface)) !important;
+  border-color: var(--wiki-line) !important;
+}
+.dark .stat-row .ant-statistic-content-value {
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, var(--wiki-accent), var(--wiki-accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-/* AI 回答 Markdown 渲染（紧凑，适配聊天气泡） */
+/* ================================================================
+   CATEGORY CARDS
+   ================================================================ */
+.dark .cat-card.ant-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.dark .cat-card.ant-card::before {
+  content: "";
+  position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--wiki-accent), transparent);
+  opacity: .6; transition: opacity .2s;
+}
+.dark .cat-card.ant-card:hover::before { opacity: 1; }
+
+/* 卡片描述文字：浅色深字、深色浅字（避免浅色模式白字不可见） */
+.card-desc { font-size: 12.5px; line-height: 1.6; margin-top: 4px; color: #6b7280; }
+.dark .card-desc { color: rgba(255,255,255,.5); }
+
+/* ================================================================
+   SECTION HEADINGS (inside pages)
+   ================================================================ */
+.dark h2.ant-typography,
+.dark h3.ant-typography {
+  position: relative;
+  padding-left: 14px;
+  color: var(--wiki-tx) !important;
+}
+.dark h2.ant-typography::before,
+.dark h3.ant-typography::before {
+  content: ""; position: absolute; left: 0; top: .2em; bottom: .2em;
+  width: 3px; border-radius: 3px;
+  background: var(--wiki-accent);
+  box-shadow: 0 0 8px var(--wiki-glow);
+}
+
+/* ================================================================
+   PET CARD ENHANCEMENTS
+   ================================================================ */
+.dark .ant-card .pet-sprite-wrap {
+  background:
+    radial-gradient(circle at 50% 38%, rgba(91,124,255,.1), transparent 65%) !important;
+}
+
+/* ================================================================
+   SCROLLBAR
+   ================================================================ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(127,127,127,.3);
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); }
+.dark ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.2); }
+
+/* ================================================================
+   AI ASSISTANT MARKDOWN
+   ================================================================ */
 .ai-md > :first-child { margin-top: 0; }
 .ai-md > :last-child { margin-bottom: 0; }
 .ai-md p { margin: 6px 0; }
@@ -72,3 +487,15 @@ img { max-width: 100%; }
 .ai-md th, .ai-md td { border: 1px solid rgba(127,127,127,.3); padding: 4px 8px; text-align: left; }
 .ai-md th { background: rgba(127,127,127,.12); }
 .ai-md hr { border: none; border-top: 1px solid rgba(127,127,127,.25); margin: 8px 0; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 768px) {
+  .hero { padding: 28px 22px !important; }
+  .dark .page-header-wrap { padding: 20px 18px; }
+  .dark .page-header-wrap .glyph { font-size: 72px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -37,9 +37,19 @@ export function NamePills({ items }: { items: { id: string; label: string }[] })
 
 export function PageHeader({ title, sub }: { title: string; sub?: string }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <Title level={2} style={{ marginBottom: 2 }}>{title}</Title>
-      {sub && <Paragraph type="secondary" style={{ marginBottom: 0 }}>{sub}</Paragraph>}
+    <div className="page-header-wrap">
+      <span className="glyph">{title.slice(0, 2)}</span>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{
+          fontSize: 10.5, letterSpacing: 3, textTransform: 'uppercase' as const,
+          color: 'rgba(255,255,255,.35)', marginBottom: 6,
+          fontFamily: "'Space Grotesk', monospace",
+        }}>
+          Wiki · {title}
+        </div>
+        <Title level={2} style={{ marginBottom: sub ? 4 : 0, color: '#fff' }}>{title}</Title>
+        {sub && <Paragraph style={{ marginBottom: 0, color: 'rgba(255,255,255,.6)', fontSize: 13.5 }}>{sub}</Paragraph>}
+      </div>
     </div>
   )
 }

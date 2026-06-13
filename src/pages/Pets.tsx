@@ -14,7 +14,7 @@ function PetCard({ pet }: { pet: PetDetail }) {
       hoverable
       styles={{ body: { padding: 14 } }}
       cover={
-        <div style={{
+        <div className="pet-sprite-wrap" style={{
           height: 150, display: 'flex', alignItems: 'center', justifyContent: 'center',
           background: 'radial-gradient(circle at 50% 38%, rgba(91,124,255,.12), rgba(91,124,255,0) 70%)',
           padding: 10,

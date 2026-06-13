@@ -67,12 +67,23 @@ function GlobalSearch() {
     <AutoComplete
       value={val}
       options={options}
-      style={{ width: '100%', maxWidth: 480 }}
+      style={{ width: '100%', maxWidth: 520 }}
       onChange={setVal}
       onSelect={(v: string) => { navigate(v.split('||')[0]); setVal('') }}
-      popupMatchSelectWidth={460}
+      popupMatchSelectWidth={480}
     >
-      <Input size="middle" allowClear prefix={<SearchOutlined />} placeholder="搜索宠物 / 装备 / 任务 / 公式…" />
+      <Input
+        size="middle"
+        allowClear
+        prefix={<SearchOutlined />}
+        placeholder="搜索宠物 / 装备 / 任务 / 公式…"
+        suffix={<kbd style={{
+          fontSize: 10, color: 'rgba(255,255,255,.35)',
+          border: '1px solid rgba(255,255,255,.12)',
+          borderRadius: 4, padding: '1px 6px', lineHeight: '18px',
+          fontFamily: 'monospace',
+        }}>/</kbd>}
+      />
     </AutoComplete>
   )
 }
@@ -82,7 +93,7 @@ export default function App() {
   const location = useLocation()
   const screens = useBreakpoint()
   const isMobile = !screens.lg
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(true)
   const [drawer, setDrawer] = useState(false)
 
   const activeKey = '/' + (location.pathname.split('/')[1] || '')
@@ -99,11 +110,29 @@ export default function App() {
   )
 
   const brand = (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '16px 20px' }}>
-      <span style={{ fontSize: 26 }}>🐉</span>
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 12,
+      padding: '18px 20px',
+    }}>
+      <div style={{
+        width: 36, height: 36, borderRadius: 10,
+        display: 'grid', placeItems: 'center', flexShrink: 0,
+        background: dark
+          ? 'linear-gradient(140deg, #212b3c, #1a2233)'
+          : 'linear-gradient(140deg, #eef1ff, #e8ecff)',
+        border: `1px solid ${dark ? 'rgba(255,255,255,.1)' : 'rgba(91,124,255,.2)'}`,
+        boxShadow: dark
+          ? 'inset 0 0 0 1px rgba(91,124,255,.15), 0 0 14px -4px rgba(91,124,255,.18)'
+          : '0 2px 6px rgba(91,124,255,.12)',
+        fontSize: 18,
+      }}>🐉</div>
       <div style={{ lineHeight: 1.15 }}>
-        <div style={{ fontWeight: 700, fontSize: 16 }}>口袋怪兽2</div>
-        <div style={{ fontSize: 11, color: '#999' }}>攻略 · 图鉴 Wiki</div>
+        <div style={{ fontWeight: 700, fontSize: 16, letterSpacing: .5 }}>口袋怪兽2</div>
+        <div style={{
+          fontSize: 10.5, letterSpacing: 1.5,
+          color: dark ? 'rgba(255,255,255,.4)' : '#999',
+          textTransform: 'uppercase' as const,
+        }}>攻略 · 图鉴 Wiki</div>
       </div>
     </div>
   )
@@ -113,31 +142,70 @@ export default function App() {
       locale={zhCN}
       theme={{
         algorithm: dark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
-        token: { colorPrimary: '#5b7cff', borderRadius: 8 },
+        token: {
+          colorPrimary: '#5b7cff',
+          borderRadius: 10,
+          colorBgContainer: dark ? '#151b28' : '#fff',
+          colorBgElevated: dark ? '#1a2233' : '#fff',
+          colorBorderSecondary: dark ? 'rgba(255,255,255,.07)' : 'rgba(0,0,0,.06)',
+          fontFamily: "-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', Roboto, sans-serif",
+        },
+        components: {
+          Card: { borderRadiusLG: 14 },
+          Table: { borderRadiusLG: 12 },
+          Alert: { borderRadiusLG: 10 },
+        },
       }}
     >
       <Layout style={{ minHeight: '100vh' }} className={dark ? 'dark' : ''}>
         {!isMobile && (
-          <Sider theme={dark ? 'dark' : 'light'} width={232} style={{ position: 'sticky', top: 0, zIndex: 11, height: '100vh', overflow: 'auto', borderInlineEnd: '1px solid rgba(127,127,127,.15)' }}>
+          <Sider
+            theme={dark ? 'dark' : 'light'}
+            width={240}
+            style={{
+              position: 'sticky', top: 0, zIndex: 11, height: '100vh', overflow: 'auto',
+              borderInlineEnd: `1px solid ${dark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.06)'}`,
+            }}
+          >
             {brand}
             {menu}
+            <div style={{
+              padding: '20px 20px 16px',
+              marginTop: 'auto',
+              fontSize: 11, lineHeight: 1.6,
+              color: dark ? 'rgba(255,255,255,.25)' : 'rgba(0,0,0,.25)',
+            }}>
+              资料整理自玩家社区<br />仅供学习交流
+            </div>
           </Sider>
         )}
         <Layout>
           <Header style={{
-            position: 'sticky', top: 0, zIndex: 20, display: 'flex', alignItems: 'center', gap: 12,
-            padding: isMobile ? '0 14px' : '0 24px',
-            background: dark ? '#141414' : '#fff',
-            borderBottom: '1px solid rgba(127,127,127,.15)',
+            position: 'sticky', top: 0, zIndex: 20,
+            display: 'flex', alignItems: 'center', gap: 12,
+            padding: isMobile ? '0 14px' : '0 28px',
+            height: 56,
+            background: dark ? 'rgba(12,16,24,.82)' : 'rgba(255,255,255,.88)',
+            backdropFilter: 'blur(14px)',
+            borderBottom: `1px solid ${dark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.06)'}`,
           }}>
             {isMobile && <Button type="text" icon={<MenuOutlined />} onClick={() => setDrawer(true)} />}
             {isMobile && <span style={{ fontSize: 22 }}>🐉</span>}
             <div style={{ flex: 1, display: 'flex', justifyContent: isMobile ? 'flex-start' : 'center' }}>
               <GlobalSearch />
             </div>
-            <Button type="text" icon={dark ? <BulbFilled /> : <BulbOutlined />} onClick={() => setDark((d) => !d)} title="切换深色模式" />
+            <Button
+              type="text"
+              icon={dark ? <BulbFilled style={{ color: '#faad14' }} /> : <BulbOutlined />}
+              onClick={() => setDark((d) => !d)}
+              title="切换深色模式"
+            />
           </Header>
-          <Content style={{ padding: isMobile ? 16 : '24px 32px', maxWidth: 1240, width: '100%', margin: '0 auto' }}>
+          <Content style={{
+            padding: isMobile ? 16 : '24px 36px',
+            maxWidth: 1280, width: '100%', margin: '0 auto',
+            position: 'relative', zIndex: 1,
+          }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/guide" element={<Guide />} />
@@ -151,12 +219,21 @@ export default function App() {
               <Route path="/data" element={<DataTools />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-            <div style={{ textAlign: 'center', color: '#999', fontSize: 12, padding: '32px 0 8px' }}>
+            <div style={{
+              textAlign: 'center', fontSize: 11, padding: '36px 0 12px',
+              color: dark ? 'rgba(255,255,255,.2)' : '#bbb',
+              letterSpacing: .5,
+            }}>
               资料整理自《口袋怪兽2 / 口袋精灵2》玩家社区 · 仅供学习交流
             </div>
           </Content>
         </Layout>
-        <Drawer placement="left" open={drawer} onClose={() => setDrawer(false)} width={232} styles={{ body: { padding: 0 } }} title={brand}>
+        <Drawer
+          placement="left" open={drawer} onClose={() => setDrawer(false)}
+          width={260}
+          styles={{ body: { padding: 0 } }}
+          title={brand}
+        >
           {menu}
         </Drawer>
         <AiAssistant />
