@@ -512,7 +512,7 @@ img { max-width: 100%; }
    GLASS THEME — 全屏风景背景 + 磨砂玻璃区块
    ================================================================ */
 body {
-  background: url('/kdjl2-wiki-bg.png') center center / cover no-repeat fixed !important;
+  background: url('/kdjl2-wiki-bg.webp') center center / cover no-repeat fixed !important;
 }
 /* Layout 自身透明，露出 body 背景图 */
 .dark, .light { background: transparent !important; }
@@ -593,6 +593,26 @@ body {
 .light .toc-jump { background: rgba(255, 255, 255, .55) !important; }
 
 /* AI 面板顶栏与气泡微调透出感无需改动 */
+
+/* —— 移动端降模糊（避免大量卡片 backdrop-filter 卡顿） —— */
+@media (max-width: 768px) {
+  /* 固定背景在移动端易抖动，改为随页面滚动 */
+  body { background-attachment: scroll !important; }
+  /* 卡片/表格/Alert/图集 取消模糊，改用更高不透明度保证可读 */
+  .dark .ant-card, .dark .atlas-card, .dark .ant-table, .dark .ant-alert,
+  .dark .ant-modal-content, .dark .ant-drawer-content {
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    background: rgba(17, 23, 37, .86) !important;
+  }
+  .light .ant-card, .light .atlas-card, .light .ant-table, .light .ant-alert,
+  .light .ant-modal-content, .light .ant-drawer-content {
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, .9) !important;
+  }
+  /* 侧栏 / 顶栏元素少，保留弱模糊但提高不透明度 */
+  .dark .ant-layout-sider, .dark .ant-layout-header { background: rgba(10, 14, 22, .9) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .light .ant-layout-sider, .light .ant-layout-header { background: rgba(255, 255, 255, .9) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+}
 
 /* ================================================================
    LIGHT MODE refinements (一套浅色 token)

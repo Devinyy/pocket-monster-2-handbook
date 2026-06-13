@@ -27,6 +27,8 @@ import AiAssistant from './components/AiAssistant'
 const { Header, Sider, Content } = Layout
 const { useBreakpoint } = Grid
 
+const ICON = `${import.meta.env.BASE_URL}favicon.png`
+
 const MENU = [
   { key: '/', icon: <HomeOutlined />, label: '首页' },
   { key: '/guide', icon: <RocketOutlined />, label: '新手入门' },
@@ -166,18 +168,13 @@ export default function App() {
       display: 'flex', alignItems: 'center', gap: 12,
       padding: '18px 20px',
     }}>
-      <div style={{
-        width: 36, height: 36, borderRadius: 10,
-        display: 'grid', placeItems: 'center', flexShrink: 0,
-        background: dark
-          ? 'linear-gradient(140deg, #212b3c, #1a2233)'
-          : 'linear-gradient(140deg, #eef1ff, #e8ecff)',
-        border: `1px solid ${dark ? 'rgba(255,255,255,.1)' : 'rgba(91,124,255,.2)'}`,
+      <img src={ICON} alt="口袋怪兽2" style={{
+        width: 36, height: 36, borderRadius: 10, flexShrink: 0, objectFit: 'cover',
+        border: `1px solid ${dark ? 'rgba(255,255,255,.12)' : 'rgba(91,124,255,.2)'}`,
         boxShadow: dark
-          ? 'inset 0 0 0 1px rgba(91,124,255,.15), 0 0 14px -4px rgba(91,124,255,.18)'
-          : '0 2px 6px rgba(91,124,255,.12)',
-        fontSize: 18,
-      }}>🐉</div>
+          ? '0 0 14px -4px rgba(91,124,255,.25)'
+          : '0 2px 6px rgba(91,124,255,.15)',
+      }} />
       <div style={{ lineHeight: 1.15 }}>
         <div style={{ fontWeight: 700, fontSize: 16, letterSpacing: .5 }}>口袋怪兽2</div>
         <div style={{
@@ -248,7 +245,7 @@ export default function App() {
             borderBottom: `1px solid ${dark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.06)'}`,
           }}>
             {isMobile && <Button type="text" icon={<MenuOutlined />} onClick={() => setDrawer(true)} />}
-            {isMobile && <span style={{ fontSize: 22 }}>🐉</span>}
+            {isMobile && <img src={ICON} alt="" style={{ width: 26, height: 26, borderRadius: 7 }} />}
             <div style={{ flex: 1, display: 'flex', justifyContent: isMobile ? 'flex-start' : 'center' }}>
               <GlobalSearch />
             </div>
