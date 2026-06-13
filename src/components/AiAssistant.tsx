@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FloatButton, Input, Button, Avatar, Tag, theme } from 'antd'
+import { Input, Button, Avatar, Tag, theme } from 'antd'
 import { RobotOutlined, CloseOutlined, SendOutlined, UserOutlined } from '@ant-design/icons'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -30,9 +30,6 @@ export default function AiAssistant() {
     im.onerror = () => setAvatarOk(false)
     im.src = AVATAR_URL
   }, [])
-  const botIcon = avatarOk
-    ? <img src={AVATAR_URL} alt="AI" style={{ width: '1em', height: '1em', borderRadius: '50%', objectFit: 'cover' }} />
-    : <RobotOutlined />
   const botAvatar = (size: number, bg: string) =>
     avatarOk
       ? <Avatar size={size} src={AVATAR_URL} style={{ flex: '0 0 auto' }} />
@@ -112,13 +109,21 @@ export default function AiAssistant() {
   return (
     <>
       {!open && (
-        <FloatButton
-          type="primary"
-          icon={botIcon}
-          tooltip="AI 攻略助手"
+        <button
+          title="AI 攻略助手"
           onClick={() => setOpen(true)}
-          style={{ width: 52, height: 52, insetInlineEnd: 28, insetBlockEnd: 28 }}
-        />
+          style={{
+            position: 'fixed', insetInlineEnd: 28, insetBlockEnd: 28, zIndex: 1000,
+            width: 56, height: 56, borderRadius: '50%', border: 'none', padding: 0,
+            cursor: 'pointer', overflow: 'hidden', boxShadow: token.boxShadowSecondary,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: avatarOk ? '#fff' : token.colorPrimary,
+          }}
+        >
+          {avatarOk
+            ? <img src={AVATAR_URL} alt="AI 攻略助手" style={{ width: 52, height: 52, objectFit: 'contain' }} />
+            : <RobotOutlined style={{ color: '#fff', fontSize: 24 }} />}
+        </button>
       )}
       {open && (
         <div
