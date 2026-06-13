@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { FloatButton, Input, Button, Avatar, Tag, theme } from 'antd'
 import { RobotOutlined, CloseOutlined, SendOutlined, UserOutlined } from '@ant-design/icons'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface Msg { role: 'user' | 'assistant'; content: string }
+
+// 自定义机器人头像：把图片放到 public/ai-avatar.gif 即生效；加载失败则回退到机器人图标。
+const AVATAR_URL = `${import.meta.env.BASE_URL}ai-avatar.gif`
 
 const WELCOME: Msg = {
   role: 'assistant',
@@ -16,7 +21,22 @@ export default function AiAssistant() {
   const [messages, setMessages] = useState<Msg[]>([WELCOME])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [avatarOk, setAvatarOk] = useState(false)
   const bodyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const im = new Image()
+    im.onload = () => setAvatarOk(true)
+    im.onerror = () => setAvatarOk(false)
+    im.src = AVATAR_URL
+  }, [])
+  const botIcon = avatarOk
+    ? <img src={AVATAR_URL} alt="AI" style={{ width: '1em', height: '1em', borderRadius: '50%', objectFit: 'cover' }} />
+    : <RobotOutlined />
+  const botAvatar = (size: number, bg: string) =>
+    avatarOk
+      ? <Avatar size={size} src={AVATAR_URL} style={{ flex: '0 0 auto' }} />
+      : <Avatar size={size} icon={<RobotOutlined />} style={{ flex: '0 0 auto', background: bg }} />
 
   useEffect(() => {
     bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: 'smooth' })
@@ -94,7 +114,7 @@ export default function AiAssistant() {
       {!open && (
         <FloatButton
           type="primary"
-          icon={<RobotOutlined />}
+          icon={botIcon}
           tooltip="AI 攻略助手"
           onClick={() => setOpen(true)}
           style={{ width: 52, height: 52, insetInlineEnd: 28, insetBlockEnd: 28 }}
@@ -115,7 +135,9 @@ export default function AiAssistant() {
             display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px',
             background: 'linear-gradient(120deg,#5b7cff,#7d5cff)', color: '#fff',
           }}>
-            <Avatar size={30} icon={<RobotOutlined />} style={{ background: 'rgba(255,255,255,.25)' }} />
+            {avatarOk
+              ? <Avatar size={30} src={AVATAR_URL} />
+              : <Avatar size={30} icon={<RobotOutlined />} style={{ background: 'rgba(255,255,255,.25)' }} />}
             <div style={{ flex: 1, lineHeight: 1.2 }}>
               <div style={{ fontWeight: 600 }}>口袋怪兽2 · AI 助手</div>
               <div style={{ fontSize: 11, opacity: 0.85 }}>基于站内攻略资料回答</div>
@@ -127,15 +149,27 @@ export default function AiAssistant() {
           <div ref={bodyRef} style={{ flex: 1, overflowY: 'auto', padding: 14, display: 'flex', flexDirection: 'column', gap: 12 }}>
             {messages.map((m, i) => (
               <div key={i} style={{ display: 'flex', gap: 8, flexDirection: m.role === 'user' ? 'row-reverse' : 'row' }}>
-                <Avatar size={28} icon={m.role === 'user' ? <UserOutlined /> : <RobotOutlined />}
-                  style={{ flex: '0 0 auto', background: m.role === 'user' ? token.colorPrimary : '#7d5cff' }} />
-                <div style={{
-                  maxWidth: '78%', padding: '8px 12px', borderRadius: 12, fontSize: 13.5, lineHeight: 1.7,
-                  whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-                  background: m.role === 'user' ? token.colorPrimary : token.colorFillSecondary,
-                  color: m.role === 'user' ? '#fff' : token.colorText,
-                }}>
-                  {m.content || (loading && i === messages.length - 1 ? '思考中…' : '')}
+                {m.role === 'user'
+                  ? <Avatar size={28} icon={<UserOutlined />} style={{ flex: '0 0 auto', background: token.colorPrimary }} />
+                  : botAvatar(28, '#7d5cff')}
+                <div
+                  className={m.role === 'assistant' ? 'ai-md' : undefined}
+                  style={{
+                    maxWidth: '82%', padding: '8px 12px', borderRadius: 12, fontSize: 13.5, lineHeight: 1.7,
+                    wordBreak: 'break-word',
+                    whiteSpace: m.role === 'user' ? 'pre-wrap' : undefined,
+                    background: m.role === 'user' ? token.colorPrimary : token.colorFillSecondary,
+                    color: m.role === 'user' ? '#fff' : token.colorText,
+                  }}
+                >
+                  {m.role === 'user'
+                    ? m.content
+                    : m.content
+                      ? <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{ a: (p) => <a {...p} target="_blank" rel="noreferrer" /> }}
+                        >{m.content}</ReactMarkdown>
+                      : (loading && i === messages.length - 1 ? '思考中…' : '')}
                 </div>
               </div>
             ))}

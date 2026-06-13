@@ -81,8 +81,10 @@ npx wrangler secret put DEEPSEEK_API_KEY     # 输入你的 DeepSeek API Key
 
 可选环境变量（Cloudflare 控制台 Variables 里加）：
 
-- `DEEPSEEK_MODEL` —— 模型名，默认 `deepseek-v4pro`；若该名不被 API 接受，可改为 `deepseek-chat` 等有效模型，无需改代码
+- `DEEPSEEK_MODEL` —— 模型名，默认 `deepseek-chat`（DeepSeek-V3）；也可设 `deepseek-reasoner`（R1）。注意 `deepseek-v4pro` 等非官方名会被 API 拒绝（400）
 - `DEEPSEEK_BASE_URL` —— 默认 `https://api.deepseek.com`
+
+**自定义 AI 头像：** 把图片（推荐方形 GIF/PNG）保存为 `public/ai-avatar.gif`，重新构建后悬浮按钮与对话头像会自动使用它；未提供时回退为机器人图标。
 
 本地调试 AI：`npm run build && npm run cf:dev`（即 `wrangler dev`，同时跑 Worker + 静态资源）。
 

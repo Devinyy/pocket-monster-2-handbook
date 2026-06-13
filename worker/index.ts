@@ -81,7 +81,8 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
   const history = messages.slice(-12)
 
   const base = env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com'
-  const model = env.DEEPSEEK_MODEL || 'deepseek-v4pro'
+  // DeepSeek 官方有效模型：deepseek-chat(V3) / deepseek-reasoner(R1)。可用 DEEPSEEK_MODEL 覆盖。
+  const model = env.DEEPSEEK_MODEL || 'deepseek-chat'
 
   const upstream = await fetch(`${base}/chat/completions`, {
     method: 'POST',
@@ -94,7 +95,9 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
 
   if (!upstream.ok || !upstream.body) {
     const errText = await upstream.text().catch(() => '')
-    return new Response(JSON.stringify({ error: `上游错误 ${upstream.status}`, detail: errText.slice(0, 500) }), { status: 502, headers: JSON_HEADERS })
+    let detail = errText.slice(0, 400)
+    try { detail = JSON.parse(errText)?.error?.message || detail } catch { /* keep raw */ }
+    return new Response(JSON.stringify({ error: `上游错误 ${upstream.status}：${detail}（模型=${model}）` }), { status: 502, headers: JSON_HEADERS })
   }
   // 直接把 SSE 流透传给前端
   return new Response(upstream.body, {
