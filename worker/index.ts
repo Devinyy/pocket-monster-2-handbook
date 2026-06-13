@@ -81,8 +81,9 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
   const history = messages.slice(-12)
 
   const base = env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com'
-  // DeepSeek 官方有效模型：deepseek-chat(V3) / deepseek-reasoner(R1)。可用 DEEPSEEK_MODEL 覆盖。
-  const model = env.DEEPSEEK_MODEL || 'deepseek-chat'
+  // 模型名（可用 DEEPSEEK_MODEL 覆盖）。注意：若用官方 api.deepseek.com，有效名为
+  // deepseek-chat / deepseek-reasoner；自定义网关请相应设置 DEEPSEEK_MODEL / DEEPSEEK_BASE_URL。
+  const model = env.DEEPSEEK_MODEL || 'deepseek-v4-pro'
 
   const upstream = await fetch(`${base}/chat/completions`, {
     method: 'POST',
