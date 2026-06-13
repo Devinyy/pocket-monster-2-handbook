@@ -19,6 +19,7 @@ import Maps from './pages/Maps'
 import Boss from './pages/Boss'
 import Equipment from './pages/Equipment'
 import DataTools from './pages/DataTools'
+import AiAssistant from './components/AiAssistant'
 
 const { Header, Sider, Content } = Layout
 const { useBreakpoint } = Grid
@@ -158,6 +159,7 @@ export default function App() {
         <Drawer placement="left" open={drawer} onClose={() => setDrawer(false)} width={232} styles={{ body: { padding: 0 } }} title={brand}>
           {menu}
         </Drawer>
+        <AiAssistant />
       </Layout>
     </ConfigProvider>
   )

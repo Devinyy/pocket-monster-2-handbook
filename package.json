@@ -10,7 +10,8 @@
     "kb": "python3 tools/export_knowledge.py",
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --port 4173 --host"
+    "preview": "vite preview --port 4173 --host",
+    "cf:dev": "wrangler dev"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",

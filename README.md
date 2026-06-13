@@ -59,14 +59,41 @@ npm run kb          # 重新生成 knowledge/ 知识库语料
 `knowledge/` 目录提供供后续接入 AI 问答的结构化语料：
 
 - `knowledge/*.md` —— 按板块整理的 Markdown，人和 AI 都可读
-- `knowledge/chunks.jsonl` —— 分块文档（98 块），每行 `{id,title,category,source,text}`，可直接做向量化入库（RAG）
+- `knowledge/chunks.jsonl` —— 分块文档（248 块），每行 `{id,title,category,source,text}`，可直接做向量化入库（RAG）
+- `src/data/knowledge.json` —— 精简版分块，供 Cloudflare Worker 的 AI 助手做关键词 RAG 检索
 
 详见 [`knowledge/README.md`](knowledge/README.md)。
 
-## 部署
+## AI 助手（DeepSeek）
 
-构建产物为纯静态文件（`base: './'`，使用 HashRouter），可部署到任意静态托管或子目录（如 `/docs/`）。
-将 `dist/` 上传即可。
+页面右下角的悬浮按钮即「AI 攻略助手」，由 Cloudflare Worker 后端（`worker/index.ts`）驱动：
+
+1. 用户提问 → Worker 用 `knowledge.json` 做关键词 RAG，检索最相关的几条资料；
+2. 拼成系统提示，调用 DeepSeek Chat Completions，流式（SSE）返回；
+3. 前端 `src/components/AiAssistant.tsx` 实时渲染回答。
+
+**配置密钥（部署后必做）：**
+
+```bash
+npx wrangler secret put DEEPSEEK_API_KEY     # 输入你的 DeepSeek API Key
+# 也可在 Cloudflare 控制台 Workers → Settings → Variables 添加加密变量
+```
+
+可选环境变量（Cloudflare 控制台 Variables 里加）：
+
+- `DEEPSEEK_MODEL` —— 模型名，默认 `deepseek-v4pro`；若该名不被 API 接受，可改为 `deepseek-chat` 等有效模型，无需改代码
+- `DEEPSEEK_BASE_URL` —— 默认 `https://api.deepseek.com`
+
+本地调试 AI：`npm run build && npm run cf:dev`（即 `wrangler dev`，同时跑 Worker + 静态资源）。
+
+## 部署（Cloudflare Workers）
+
+`wrangler.jsonc` 已配置为「静态资源(dist) + Worker(/api/*)」：
+
+- 构建命令：`npm run build`
+- 部署命令：`npx wrangler deploy`
+
+构建产物为纯静态前端（`base: './'`，HashRouter），由 Worker 的 `ASSETS` 绑定托管，`/api/chat` 走 Worker。
 
 ---
 

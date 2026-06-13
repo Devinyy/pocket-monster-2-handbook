@@ -1,10 +1,16 @@
 {
-  // Cloudflare Workers 静态资源部署配置
-  // 仅托管 dist 下的静态文件（无 Worker 脚本），适配 SPA。
+  // Cloudflare Worker：静态资源(dist) + AI 助手后端(/api/chat)
   "name": "pocket-monster-2-handbook",
+  "main": "worker/index.ts",
   "compatibility_date": "2025-06-01",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "not_found_handling": "single-page-application"
-  }
+  },
+  "observability": { "enabled": true }
+  // 部署后需配置密钥（二选一）：
+  //   npx wrangler secret put DEEPSEEK_API_KEY
+  //   或在 Cloudflare 控制台 Workers → Settings → Variables 添加加密变量
+  // 可选变量：DEEPSEEK_MODEL（默认 deepseek-v4pro）、DEEPSEEK_BASE_URL（默认 https://api.deepseek.com）
 }

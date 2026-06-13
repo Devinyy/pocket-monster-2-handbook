@@ -409,6 +409,12 @@ def build_index():
         for c in CHUNKS:
             f.write(json.dumps(c, ensure_ascii=False) + '\n')
     print(f'wrote knowledge/chunks.jsonl - {len(CHUNKS)} chunks')
+    # 供 Cloudflare Worker 做 RAG 检索的精简版（去掉 source 以减小体积）
+    slim = [{'t': c['title'], 'c': c['category'], 'x': c['text']} for c in CHUNKS]
+    kj = os.path.join(ROOT, 'src', 'data', 'knowledge.json')
+    with open(kj, 'w', encoding='utf-8') as f:
+        json.dump(slim, f, ensure_ascii=False)
+    print(f'wrote src/data/knowledge.json - {len(slim)} chunks')
 
 if __name__ == '__main__':
     build_guide_formula()
