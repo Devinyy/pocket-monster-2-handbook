@@ -27,16 +27,24 @@ img { max-width: 100%; }
 .name-pills { display: flex; flex-wrap: wrap; gap: 6px; }
 .name-pills a { font-size: 12.5px; }
 
-/* toc jump bar */
-.toc-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px; }
+/* toc jump bar —— 滚动到 Header(64px) 下方后吸顶固定 */
+.toc-jump {
+  display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px;
+  position: sticky; top: 64px; z-index: 9;
+  padding: 10px 12px; border-radius: 10px;
+  background: rgba(255,255,255,.82); backdrop-filter: blur(8px);
+  border: 1px solid rgba(127,127,127,.15);
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+}
+.dark .toc-jump { background: rgba(24,24,28,.82); }
 .toc-jump .jump-pill {
   font-size: 13px; padding: 3px 12px; border-radius: 999px; line-height: 1.6;
   background: rgba(91,124,255,.1); border: 1px solid rgba(91,124,255,.3); color: #5b7cff;
 }
 .toc-jump .jump-pill:hover { background: rgba(91,124,255,.2); text-decoration: none; }
 .dark .toc-jump .jump-pill { color: #aebfff; }
-/* every anchor target clears the sticky header */
-[id] { scroll-margin-top: 80px; }
+/* anchor targets clear the sticky header + sticky jump bar */
+[id] { scroll-margin-top: 120px; }
 
 .hero {
   border-radius: 16px; padding: 40px 36px; color: #fff;

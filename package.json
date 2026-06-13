@@ -6,10 +6,11 @@
   "description": "口袋怪兽2 攻略 · 图鉴 Wiki (React + Ant Design)",
   "scripts": {
     "data": "python3 tools/export_data.py",
+    "pets": "python3 tools/build_pets_detail.py",
+    "kb": "python3 tools/export_knowledge.py",
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --port 4173 --host",
-    "kb": "python3 tools/export_knowledge.py"
+    "preview": "vite preview --port 4173 --host"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",

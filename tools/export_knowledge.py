@@ -208,14 +208,24 @@ def build_guide_formula():
 
 # ---------------- 2. 宠物图鉴 ----------------
 def build_pets():
-    data = load('petsAtlas.json')
-    lines = ['# 宠物图鉴（系列与名录）', '', '> 来源：口袋百科重制版·宠物篇。详细技能见图鉴页码。', '']
+    data = load('petsDetail.json')
+    lines = ['# 宠物图鉴（一宠一卡 · 含技能）', '', '> 来源：口袋百科重制版·宠物篇。每只宠物含技能（括号内为满级数值）。', '']
     for s in data:
-        names = '、'.join(p['name'] for p in s['pets'])
-        pages = ', '.join(str(p['page']) for p in s['pages'])
-        lines += [f'## {s["series"]}', f'- 宠物：{names}', f'- 图鉴页码：{pages}', '']
-        chunk(f'pets-{s["series"]}', f'宠物图鉴 · {s["series"]}', '宠物图鉴',
-              f'{s["series"]}系列宠物：{names}。', SRC_NAMES['pets'])
+        lines.append(f'## {s["series"]}')
+        for p in s['pets']:
+            lines.append(f'### {p["name"]}')
+            for sk in p['skills']:
+                lines.append(f'- **{sk["name"]}**：{sk["desc"]}' if sk['desc'] else f'- **{sk["name"]}**')
+            for o in p['obtain']:
+                lines.append(f'- {o}')
+            lines.append('')
+            txt = f'{p["name"]}（{s["series"]}）'
+            if p['skills']:
+                txt += '技能：' + '；'.join(
+                    (sk['name'] + ('：' + sk['desc'] if sk['desc'] else '')) for sk in p['skills'])
+            if p['obtain']:
+                txt += '。' + ' '.join(p['obtain'])
+            chunk(f'pet-{p["name"]}', f'宠物 · {p["name"]}', '宠物图鉴', txt, SRC_NAMES['pets'])
     write_md('03-宠物图鉴.md', '\n'.join(lines))
 
 # ---------------- 3. 新宠技能 ----------------

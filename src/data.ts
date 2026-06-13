@@ -3,7 +3,7 @@
 import expJson from './data/exp.json'
 import nirvanaJson from './data/nirvanaPets.json'
 import bossJson from './data/boss.json'
-import petsAtlasJson from './data/petsAtlas.json'
+import petsDetailJson from './data/petsDetail.json'
 import tasksAtlasJson from './data/tasksAtlas.json'
 import equipmentJson from './data/equipment.json'
 import newpetsJson from './data/newpets.json'
@@ -13,7 +13,8 @@ export interface ExpRow { lv: number; need: number; total: number }
 export interface BossRow { place: string; boss: string; normal: string; hard: string; adv: string; single: string }
 export interface BossRegion { region: string; rows: BossRow[] }
 export interface AtlasPage { page: number; img: string }
-export interface PetSeries { series: string; pets: { name: string; page: number }[]; pages: AtlasPage[] }
+export interface PetDetail { name: string; skills: Skill[]; obtain: string[]; sprite: string }
+export interface PetDetailSeries { series: string; pets: PetDetail[] }
 export interface TasksAtlas { index: { name: string; page: number }[]; pages: AtlasPage[] }
 export interface EquipSlide { page: number; img: string; title: string; isHead: boolean }
 export interface Skill { name: string; desc: string }
@@ -24,7 +25,7 @@ export interface Galleries { bomu: string[]; heshen: string[]; boss: string[] }
 export const exp = expJson as ExpRow[]
 export const nirvanaPets = nirvanaJson as string[]
 export const boss = bossJson as BossRegion[]
-export const petsAtlas = petsAtlasJson as PetSeries[]
+export const petsDetail = petsDetailJson as PetDetailSeries[]
 export const tasksAtlas = tasksAtlasJson as TasksAtlas
 export const equipment = equipmentJson as EquipSlide[]
 export const newpets = newpetsJson as NewPetSection[]
@@ -39,9 +40,9 @@ export interface SearchItem { name: string; path: string; cat: string; kw?: stri
 
 function buildIndex(): SearchItem[] {
   const items: SearchItem[] = []
-  petsAtlas.forEach((s) =>
+  petsDetail.forEach((s, i) =>
     s.pets.forEach((p) =>
-      items.push({ name: p.name, path: `/pets#p${p.page}`, cat: '宠物图鉴', kw: s.series })))
+      items.push({ name: p.name, path: `/pets#ps${i}`, cat: '宠物图鉴', kw: s.series })))
   newpets.forEach((s, i) =>
     s.cards.forEach((c) =>
       items.push({ name: c.name, path: `/newpets#ns${i}`, cat: '新宠技能', kw: s.title })))

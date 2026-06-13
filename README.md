@@ -45,11 +45,14 @@ npm run dev         # 本地开发 (http://localhost:5173)
 npm run build       # 构建到 dist/
 npm run preview     # 预览构建产物 (http://localhost:4173)
 
-npm run data        # 从 web-data 重新生成 src/data/*.json（需 python3）
+npm run data        # 生成 src/data/*.json（经验/物价/boss/任务/装备/新宠，需 python3）
+npm run pets        # 解析宠物篇 PDF → 一宠一卡数据 + 独立透明立绘（需 python3 + Pillow + poppler）
 npm run kb          # 重新生成 knowledge/ 知识库语料
 ```
 
-> 数据流水线：原始资料 `docs/ziliao` → 提取文本/图片 → `web-data` + `public/img` → `npm run data` → `src/data/*.json`（前端使用）→ `npm run kb` → `knowledge/`（AI 使用）。
+> 数据流水线：原始资料 `docs/ziliao` → 提取文本/图片 → `web-data` + `public/img` → `npm run data` / `npm run pets` → `src/data/*.json`（前端使用）→ `npm run kb` → `knowledge/`（AI 使用）。
+>
+> 宠物图鉴为「一宠一卡」：`tools/build_pets_detail.py` 从 PDF 抽出每只宠物的独立透明立绘（`public/img/petsprite/`），并按 PDF 分页与正文逐只配对技能文字 → `src/data/petsDetail.json`。
 
 ## AI 知识库
 

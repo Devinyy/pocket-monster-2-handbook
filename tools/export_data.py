@@ -253,7 +253,7 @@ if __name__ == '__main__':
     exp_table()
     nirvana_pets()
     boss()
-    pets_atlas()
+    # 宠物图鉴改为「一宠一卡」，由 tools/build_pets_detail.py 生成 petsDetail.json
     tasks_atlas()
     equipment()
     newpets()

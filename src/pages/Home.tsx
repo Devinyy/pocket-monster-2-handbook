@@ -1,6 +1,6 @@
 import { Card, Col, Row, Typography, Statistic, Tag } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { petsAtlas, newpets, tasksAtlas, boss, equipment, exp } from '../data'
+import { petsDetail, newpets, boss, exp } from '../data'
 
 const { Title, Paragraph } = Typography
 
@@ -24,7 +24,7 @@ const FEATURES = [
 
 export default function Home() {
   const navigate = useNavigate()
-  const petCount = petsAtlas.reduce((a, s) => a + s.pets.length, 0)
+  const petCount = petsDetail.reduce((a, s) => a + s.pets.length, 0)
   const skillCount = newpets.reduce((a, s) => a + s.cards.length, 0)
   const bossCount = boss.reduce((a, r) => a + r.rows.filter((x) => x.boss).length, 0)
 
