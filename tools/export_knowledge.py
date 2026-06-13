@@ -366,6 +366,18 @@ def build_data():
     write_md('08-数值-经验物价伤害.md', '\n'.join(lines))
 
 # ---------------- 索引 + chunks ----------------
+def build_server():
+    md = """# 本服特色
+
+- 圣兽云殿可获得大量基础资源。
+- 聊天等级和装备 5 月折算元宝。
+- 双月涅槃排名前 100 获得元宝。
+- 原版功能除琥珀屋和要塞外都有。
+- 每月更新永久属性祝福任务。
+"""
+    write_md('00-本服特色.md', md)
+    chunk('server-features', '本服特色', '本服特色', md, '本服特色介绍')
+
 def build_maps():
     src = os.path.join(ROOT, 'docs', 'ziliao', '地图怪物掉落与养号攻略.md')
     if not os.path.exists(src):
@@ -425,5 +437,6 @@ if __name__ == '__main__':
     build_equip()
     build_data()
     build_maps()
+    build_server()
     build_index()
     print('Knowledge base ready.')

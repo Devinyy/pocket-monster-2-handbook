@@ -23,6 +23,14 @@ const FEATURES = [
   { emoji: '📋', t: '任务系统', d: '剧情、日常、兑换、宠物专属任务，合理搭配让游戏体验更惬意。' },
 ]
 
+const SERVER_FEATURES = [
+  { emoji: '🏯', t: '圣兽云殿', d: '可获得大量基础资源' },
+  { emoji: '💎', t: '折算元宝', d: '聊天等级和装备 5 月折算元宝' },
+  { emoji: '🏆', t: '双月涅槃', d: '排名前 100 获得元宝' },
+  { emoji: '🎮', t: '原版功能', d: '除琥珀屋和要塞外均保留' },
+  { emoji: '🎁', t: '属性祝福', d: '每月更新永久属性祝福任务' },
+]
+
 export default function Home() {
   const navigate = useNavigate()
   const petCount = petsDetail.reduce((a, s) => a + s.pets.length, 0)
@@ -69,6 +77,17 @@ export default function Home() {
           </Col>
         ))}
       </Row>
+
+      <Title level={3} style={{ marginTop: 30 }}>本服特色</Title>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 14 }}>
+        {SERVER_FEATURES.map((f) => (
+          <Card key={f.t} style={{ height: '100%' }}>
+            <div style={{ fontSize: 26 }}>{f.emoji}</div>
+            <div style={{ fontWeight: 700, fontSize: 15, margin: '6px 0 4px' }}>{f.t}</div>
+            <div className="card-desc" style={{ marginTop: 0 }}>{f.d}</div>
+          </Card>
+        ))}
+      </div>
 
       <Title level={3} style={{ marginTop: 30 }}>全部分类</Title>
       <Row gutter={[14, 14]}>
