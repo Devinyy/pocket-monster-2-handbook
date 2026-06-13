@@ -30,9 +30,10 @@ export function scrollToId(id: string, e?: { preventDefault: () => void }) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-// 横向锚点跳转条 + ScrollSpy：当前可视区段对应的 pill 高亮
+// 横向锚点跳转条 + ScrollSpy：当前可视区段对应的 pill 高亮；移动端可展开/收起
 export function JumpBar({ items }: { items: { id: string; label: string }[] }) {
   const [active, setActive] = useState(items[0]?.id)
+  const [expanded, setExpanded] = useState(false)
   useEffect(() => {
     const els = items.map((it) => document.getElementById(it.id)).filter(Boolean) as HTMLElement[]
     if (!els.length) return
@@ -45,15 +46,24 @@ export function JumpBar({ items }: { items: { id: string; label: string }[] }) {
     return () => obs.disconnect()
   }, [items])
 
+  const activeLabel = items.find((it) => it.id === active)?.label || items[0]?.label
+
   return (
-    <div className="toc-jump">
-      {items.map((it) => (
-        <a key={it.id} href={`#${it.id}`}
-          className={`jump-pill${active === it.id ? ' active' : ''}`}
-          onClick={(e) => { scrollToId(it.id, e); setActive(it.id) }}>
-          {it.label}
-        </a>
-      ))}
+    <div className={`toc-jump${expanded ? ' expanded' : ''}`}>
+      {/* 移动端收起态：仅显示当前章节 + 展开按钮 */}
+      <button className="toc-toggle" onClick={() => setExpanded((e) => !e)} aria-expanded={expanded}>
+        <span className="toc-toggle-label">章节 · {activeLabel}</span>
+        <span className="toc-toggle-icon">{expanded ? '收起 ▴' : `全部(${items.length}) ▾`}</span>
+      </button>
+      <div className="toc-pills">
+        {items.map((it) => (
+          <a key={it.id} href={`#${it.id}`}
+            className={`jump-pill${active === it.id ? ' active' : ''}`}
+            onClick={(e) => { scrollToId(it.id, e); setActive(it.id); setExpanded(false) }}>
+            {it.label}
+          </a>
+        ))}
+      </div>
     </div>
   )
 }

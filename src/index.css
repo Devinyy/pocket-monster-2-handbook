@@ -332,13 +332,15 @@ img { max-width: 100%; }
    TOC JUMP BAR
    ================================================================ */
 .toc-jump {
-  display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px;
+  margin: 10px 0 16px;
   position: sticky; top: 64px; z-index: 9;
   padding: 10px 14px; border-radius: var(--wiki-r);
   background: rgba(255,255,255,.82); backdrop-filter: blur(10px);
   border: 1px solid rgba(127,127,127,.15);
   box-shadow: 0 4px 16px rgba(0,0,0,.06);
 }
+.toc-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.toc-toggle { display: none; }   /* 桌面端隐藏开关，始终展开 */
 .dark .toc-jump {
   background: rgba(16,20,30,.85);
   border-color: var(--wiki-line);
@@ -612,6 +614,21 @@ body {
   /* 侧栏 / 顶栏元素少，保留弱模糊但提高不透明度 */
   .dark .ant-layout-sider, .dark .ant-layout-header { background: rgba(10, 14, 22, .9) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
   .light .ant-layout-sider, .light .ant-layout-header { background: rgba(255, 255, 255, .9) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+
+  /* —— 章节目录跳转条：移动端默认收起，点击展开 —— */
+  .toc-jump { padding: 8px 12px; }
+  .toc-toggle {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    width: 100%; background: transparent; border: none; color: inherit;
+    font-size: 13px; font-weight: 600; cursor: pointer; padding: 2px;
+  }
+  .toc-toggle-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .toc-toggle-icon { flex: 0 0 auto; color: var(--wiki-accent); font-size: 12px; }
+  .toc-pills { display: none; }
+  .toc-jump.expanded .toc-pills {
+    display: flex; margin-top: 10px; max-height: 46vh; overflow-y: auto;
+    padding-right: 2px;
+  }
 }
 
 /* ================================================================
