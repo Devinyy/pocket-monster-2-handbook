@@ -69,8 +69,9 @@ npm run kb          # 重新生成 knowledge/ 知识库语料
 页面右下角的悬浮按钮即「AI 攻略助手」，由 Cloudflare Worker 后端（`worker/index.ts`）驱动：
 
 1. 用户提问 → Worker 用 `knowledge.json` 做关键词 RAG，检索最相关的几条资料；
-2. 拼成系统提示，调用 DeepSeek Chat Completions，流式（SSE）返回；
-3. 前端 `src/components/AiAssistant.tsx` 实时渲染回答。
+2. **话题闸门**：判断问题是否与本 Wiki 相关（命中游戏领域关键词 / 检索到强相关资料）。与本游戏无关的问题（写代码、闲聊、其它领域等）**直接拒答，不调用 DeepSeek**，避免 API 被滥用（薅羊毛）；
+3. 通过后拼成系统提示，调用 DeepSeek Chat Completions，流式（SSE）返回；
+4. 前端 `src/components/AiAssistant.tsx` 实时渲染（Markdown）。
 
 **配置密钥（部署后必做）：**
 
