@@ -1,8 +1,23 @@
 import { Typography, Image } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import type { Formula } from '../data/formulas'
-import { imgUrl } from '../data'
+import { imgUrl, petLink } from '../data'
 
 const { Title, Paragraph } = Typography
+
+// 合成材料/产物 chip：若能匹配到宠物图鉴则可点击跳转
+function Chip({ text, res }: { text: string; res?: boolean }) {
+  const navigate = useNavigate()
+  const link = petLink(text)
+  const cls = `chip${res ? ' chip-res' : ''}${link ? ' chip-link' : ''}`
+  if (link) {
+    return (
+      <a className={cls} href={`#${link}`} title={`查看 ${text} 图鉴`}
+        onClick={(e) => { e.preventDefault(); navigate(link) }}>{text}</a>
+    )
+  }
+  return <span className={cls}>{text}</span>
+}
 
 // 平滑滚动到页内锚点；阻止默认行为，避免 HashRouter 下 location.hash 被改写导致路由跳变
 export function scrollToId(id: string, e?: { preventDefault: () => void }) {
@@ -60,11 +75,11 @@ export function FormulaRow({ f }: { f: Formula }) {
       {f.left.map((x, i) => (
         <span key={i} style={{ display: 'contents' }}>
           {i > 0 && <span className="op">+</span>}
-          <span className="chip">{x}</span>
+          <Chip text={x} />
         </span>
       ))}
       <span className="op">=</span>
-      <span className="chip chip-res">{f.res}</span>
+      <Chip text={f.res} res />
     </div>
   )
 }

@@ -1,17 +1,20 @@
-import { useEffect } from 'react'
+import { useEffect, type CSSProperties } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Typography, Alert, Card, Tag, Image, Empty } from 'antd'
 import { PageHeader, JumpBar } from '../components/common'
 import { petsDetail, imgUrl } from '../data'
 import type { PetDetail } from '../data'
+import { seriesColor } from '../elements'
 
 const { Title, Text } = Typography
 
-function PetCard({ pet }: { pet: PetDetail }) {
+function PetCard({ pet, cc }: { pet: PetDetail; cc: string }) {
   return (
     <Card
       size="small"
       hoverable
+      className="pet-card"
+      style={{ ['--cc']: cc } as CSSProperties}
       styles={{ body: { padding: 14 } }}
       cover={
         <div className="pet-sprite-wrap" style={{
@@ -67,10 +70,11 @@ export default function Pets() {
         {petsDetail.map((s, i) => (
           <div key={i} id={`ps${i}`} style={{ marginBottom: 28 }}>
             <Title level={3} style={{ marginBottom: 12 }}>
+              <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 2, background: seriesColor(i), marginRight: 8, verticalAlign: 'middle' }} />
               {s.series} <Tag color="blue">{s.pets.length}</Tag>
             </Title>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: 14 }}>
-              {s.pets.map((p, j) => <PetCard key={j} pet={p} />)}
+              {s.pets.map((p, j) => <PetCard key={j} pet={p} cc={seriesColor(i)} />)}
             </div>
           </div>
         ))}

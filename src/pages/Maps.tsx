@@ -1,22 +1,26 @@
-import { Typography, Card, Tag, Tabs, Table, Alert, Row, Col } from 'antd'
+import { Typography, Card, Tag, Tabs, Table, Alert, Row, Col, Button } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 import { PageHeader } from '../components/common'
 import { oldMaps, newMaps, dungeons, materials, farmTips, accounts } from '../data/maps'
 import type { GameMap } from '../data/maps'
+import { ELEM_ANTD, detectElement } from '../elements'
+import { useElementFilter } from '../ElementFilter'
 
 const { Title, Text, Paragraph } = Typography
 
-const ELEM_COLOR: Record<string, string> = {
-  金: 'gold', 木: 'green', 水: 'blue', 火: 'volcano', 土: 'orange',
-  神: 'purple', 暗: 'magenta', 光: 'cyan',
-}
-// 从 "鸭子（水）" 中取元素着色
-function monsterTag(m: string, i: number) {
-  const mt = m.match(/[（(]([金木水火土神暗光/]+)[）)]/)
-  const el = mt ? mt[1][0] : ''
-  return <Tag key={i} color={ELEM_COLOR[el] || 'default'} style={{ marginInlineEnd: 6, marginBottom: 6 }}>{m}</Tag>
+// 从 "鸭子（水）" 中取元素着色；activeEl 设置时非匹配项淡化
+function monsterTag(m: string, i: number, activeEl: string | null) {
+  const el = detectElement(m) || ''
+  const dim = activeEl && el !== activeEl
+  return (
+    <Tag key={i} color={ELEM_ANTD[el] || 'default'}
+      style={{ marginInlineEnd: 6, marginBottom: 6, opacity: dim ? 0.3 : 1, transition: 'opacity .15s' }}>
+      {m}
+    </Tag>
+  )
 }
 
-function MapCard({ m }: { m: GameMap }) {
+function MapCard({ m, activeEl }: { m: GameMap; activeEl: string | null }) {
   return (
     <Card size="small" style={{ height: '100%' }}
       title={<span>{m.name}{m.meta && <Text type="secondary" style={{ fontWeight: 400, fontSize: 12 }}>　{m.meta}</Text>}</span>}
@@ -24,7 +28,7 @@ function MapCard({ m }: { m: GameMap }) {
     >
       <div style={{ marginBottom: 8 }}>
         <Text type="secondary" style={{ fontSize: 12 }}>怪物</Text>
-        <div style={{ marginTop: 4 }}>{m.monsters.map(monsterTag)}</div>
+        <div style={{ marginTop: 4 }}>{m.monsters.map((mm, i) => monsterTag(mm, i, activeEl))}</div>
       </div>
       <div>
         <Text type="secondary" style={{ fontSize: 12 }}>掉落</Text>
@@ -36,17 +40,25 @@ function MapCard({ m }: { m: GameMap }) {
   )
 }
 
-function MapGrid({ maps }: { maps: GameMap[] }) {
+// 该地图是否含某属性的怪物/BOSS
+function mapHasEl(m: GameMap, el: string): boolean {
+  return [...m.monsters, ...m.boss].some((x) => detectElement(x) === el)
+}
+
+function MapGrid({ maps, activeEl }: { maps: GameMap[]; activeEl: string | null }) {
+  const shown = activeEl ? maps.filter((m) => mapHasEl(m, activeEl)) : maps
+  if (!shown.length) return <Text type="secondary">该区域暂无「{activeEl}」属性怪物。</Text>
   return (
     <Row gutter={[14, 14]}>
-      {maps.map((m) => (
-        <Col xs={24} md={12} key={m.name}><MapCard m={m} /></Col>
+      {shown.map((m) => (
+        <Col xs={24} md={12} key={m.name}><MapCard m={m} activeEl={activeEl} /></Col>
       ))}
     </Row>
   )
 }
 
 export default function Maps() {
+  const { el, setEl } = useElementFilter()
   return (
     <div>
       <PageHeader title="地图图鉴" sub="野外地图怪物与掉落 · 大陆副本 · 材料速查与养号（玩家收集整理）" />
@@ -56,12 +68,16 @@ export default function Maps() {
             key: 'wild', label: '🗺️ 地图怪物 & 掉落',
             children: (
               <div>
-                <Alert type="info" showIcon style={{ marginBottom: 14 }}
-                  message="怪物按属性着色；BOSS 在右上角标红。掉落以游戏内为准。" />
+                {el
+                  ? <Alert type="warning" showIcon style={{ marginBottom: 14 }}
+                      message={<span>正在按 <b>{el}</b> 属性筛选，仅显示含该属性怪物的地图。</span>}
+                      action={<Button size="small" icon={<CloseOutlined />} onClick={() => setEl(null)}>清除</Button>} />
+                  : <Alert type="info" showIcon style={{ marginBottom: 14 }}
+                      message="怪物按属性着色；BOSS 在右上角标红。可在左侧栏用五系 chip 筛选。" />}
                 <Title level={4}>旧大陆</Title>
-                <MapGrid maps={oldMaps} />
+                <MapGrid maps={oldMaps} activeEl={el} />
                 <Title level={4} style={{ marginTop: 20 }}>新大陆</Title>
-                <MapGrid maps={newMaps} />
+                <MapGrid maps={newMaps} activeEl={el} />
               </div>
             ),
           },

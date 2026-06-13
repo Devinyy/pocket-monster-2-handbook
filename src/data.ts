@@ -85,3 +85,22 @@ function buildIndex(): SearchItem[] {
 }
 
 export const searchIndex = buildIndex()
+
+// ---------------- 宠物名 → 图鉴位置（用于合成公式 chip 跳转） ----------------
+const normName = (s: string) => s.replace(/[★☆≮≯·（）()\s]/g, '').replace(/\d+cc.*$/i, '')
+const petLinkMap: Record<string, string> = {}
+petsDetail.forEach((s, i) => {
+  const path = `/pets#ps${i}`
+  s.pets.forEach((p) => {
+    petLinkMap[normName(p.name)] = path
+    const after = p.name.includes('：') ? p.name.split('：').pop()! : p.name
+    const k = normName(after)
+    if (k.length >= 2 && !petLinkMap[k]) petLinkMap[k] = path
+  })
+})
+// 返回该名称对应的宠物图鉴锚点，无匹配则 null
+export function petLink(name: string): string | null {
+  const k = normName(name.replace(/\(.*?\)|（.*?）/g, ''))
+  if (k.length < 2) return null
+  return petLinkMap[k] || null
+}

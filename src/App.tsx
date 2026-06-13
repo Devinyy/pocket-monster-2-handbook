@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { Layout, Menu, ConfigProvider, theme as antdTheme, AutoComplete, Input, Button, Grid, Drawer, Tag } from 'antd'
 import {
@@ -8,6 +8,8 @@ import {
 } from '@ant-design/icons'
 import zhCN from 'antd/locale/zh_CN'
 import { searchIndex } from './data'
+import { ELEMENTS } from './elements'
+import { ElementFilterProvider, useElementFilter } from './ElementFilter'
 
 import Home from './pages/Home'
 import Guide from './pages/Guide'
@@ -73,6 +75,7 @@ function GlobalSearch() {
       popupMatchSelectWidth={480}
     >
       <Input
+        id="global-search"
         size="middle"
         allowClear
         prefix={<SearchOutlined />}
@@ -88,6 +91,36 @@ function GlobalSearch() {
   )
 }
 
+// 五系筛选 chip（侧栏 / Drawer）：点击设置全局属性筛选并跳到地图图鉴
+function ElementChips({ onPick }: { onPick?: () => void }) {
+  const { el, setEl } = useElementFilter()
+  const navigate = useNavigate()
+  return (
+    <div style={{ padding: '6px 18px 14px' }}>
+      <div style={{ fontSize: 11, letterSpacing: 1, opacity: 0.5, marginBottom: 8 }}>五系筛选 · 地图怪物</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+        {ELEMENTS.map((e) => {
+          const active = el === e.key
+          return (
+            <span
+              key={e.key}
+              title={`筛选 ${e.label} 属性怪物`}
+              onClick={() => { const next = active ? null : e.key; setEl(next); if (next) navigate('/maps'); onPick?.() }}
+              style={{
+                cursor: 'pointer', userSelect: 'none', fontSize: 13, fontWeight: 600,
+                width: 28, height: 28, lineHeight: '26px', textAlign: 'center', borderRadius: 8,
+                color: active ? '#fff' : e.hex,
+                background: active ? e.hex : 'transparent',
+                border: `1px solid ${e.hex}`, transition: 'all .15s',
+              }}
+            >{e.label}</span>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -95,6 +128,24 @@ export default function App() {
   const isMobile = !screens.lg
   const [dark, setDark] = useState(true)
   const [drawer, setDrawer] = useState(false)
+
+  // 「/」聚焦搜索框，Esc 失焦
+  useEffect(() => {
+    const searchInput = () => document.querySelector<HTMLInputElement>('.ant-layout-header input.ant-input')
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement
+      const typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)
+      if (e.key === '/' && !typing) {
+        e.preventDefault()
+        searchInput()?.focus()
+      } else if (e.key === 'Escape') {
+        const ae = document.activeElement as HTMLElement
+        if (ae?.classList.contains('ant-input') && ae.closest('.ant-layout-header')) ae.blur()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   const activeKey = '/' + (location.pathname.split('/')[1] || '')
 
@@ -145,19 +196,24 @@ export default function App() {
         token: {
           colorPrimary: '#5b7cff',
           borderRadius: 10,
-          colorBgContainer: dark ? '#151b28' : '#fff',
-          colorBgElevated: dark ? '#1a2233' : '#fff',
-          colorBorderSecondary: dark ? 'rgba(255,255,255,.07)' : 'rgba(0,0,0,.06)',
+          colorBgContainer: dark ? '#151b28' : '#ffffff',
+          colorBgElevated: dark ? '#1a2233' : '#ffffff',
+          colorBgLayout: dark ? '#0c1018' : '#eef1f8',
+          colorBorderSecondary: dark ? 'rgba(255,255,255,.07)' : 'rgba(15,23,42,.07)',
+          colorText: dark ? '#e4e9f2' : '#1f2733',
+          colorTextSecondary: dark ? '#9da8bc' : '#5b6675',
           fontFamily: "-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', Roboto, sans-serif",
         },
         components: {
           Card: { borderRadiusLG: 14 },
           Table: { borderRadiusLG: 12 },
           Alert: { borderRadiusLG: 10 },
+          Menu: { itemSelectedBg: dark ? 'rgba(91,124,255,.12)' : 'rgba(91,124,255,.1)' },
         },
       }}
     >
-      <Layout style={{ minHeight: '100vh' }} className={dark ? 'dark' : ''}>
+     <ElementFilterProvider>
+      <Layout style={{ minHeight: '100vh' }} className={dark ? 'dark' : 'light'}>
         {!isMobile && (
           <Sider
             theme={dark ? 'dark' : 'light'}
@@ -169,11 +225,11 @@ export default function App() {
           >
             {brand}
             {menu}
+            <ElementChips />
             <div style={{
-              padding: '20px 20px 16px',
-              marginTop: 'auto',
+              padding: '16px 20px',
               fontSize: 11, lineHeight: 1.6,
-              color: dark ? 'rgba(255,255,255,.25)' : 'rgba(0,0,0,.25)',
+              color: dark ? 'rgba(255,255,255,.25)' : 'rgba(0,0,0,.3)',
             }}>
               资料整理自玩家社区<br />仅供学习交流
             </div>
@@ -206,19 +262,21 @@ export default function App() {
             maxWidth: 1280, width: '100%', margin: '0 auto',
             position: 'relative', zIndex: 1,
           }}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/guide" element={<Guide />} />
-              <Route path="/synthesis" element={<Synthesis />} />
-              <Route path="/pets" element={<Pets />} />
-              <Route path="/newpets" element={<NewPets />} />
-              <Route path="/tasks" element={<Tasks />} />
-              <Route path="/maps" element={<Maps />} />
-              <Route path="/boss" element={<Boss />} />
-              <Route path="/equipment" element={<Equipment />} />
-              <Route path="/data" element={<DataTools />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+            <div className="page-fade" key={location.pathname}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/guide" element={<Guide />} />
+                <Route path="/synthesis" element={<Synthesis />} />
+                <Route path="/pets" element={<Pets />} />
+                <Route path="/newpets" element={<NewPets />} />
+                <Route path="/tasks" element={<Tasks />} />
+                <Route path="/maps" element={<Maps />} />
+                <Route path="/boss" element={<Boss />} />
+                <Route path="/equipment" element={<Equipment />} />
+                <Route path="/data" element={<DataTools />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </div>
             <div style={{
               textAlign: 'center', fontSize: 11, padding: '36px 0 12px',
               color: dark ? 'rgba(255,255,255,.2)' : '#bbb',
@@ -235,9 +293,11 @@ export default function App() {
           title={brand}
         >
           {menu}
+          <ElementChips onPick={() => setDrawer(false)} />
         </Drawer>
         <AiAssistant />
       </Layout>
+     </ElementFilterProvider>
     </ConfigProvider>
   )
 }

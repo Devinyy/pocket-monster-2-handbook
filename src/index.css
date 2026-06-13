@@ -456,6 +456,79 @@ img { max-width: 100%; }
   background:
     radial-gradient(circle at 50% 38%, rgba(91,124,255,.1), transparent 65%) !important;
 }
+/* 宠物卡顶部属性/系列色条（--cc 由各卡注入） */
+.pet-card.ant-card { position: relative; overflow: hidden; }
+.pet-card.ant-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--cc, var(--wiki-accent)); z-index: 3;
+}
+.pet-card.ant-card .pet-sprite-wrap {
+  background: radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--cc) 16%, transparent), transparent 66%) !important;
+}
+
+/* ================================================================
+   CLICKABLE FORMULA CHIP (跳转宠物图鉴)
+   ================================================================ */
+.chip-link { cursor: pointer; text-decoration: none; }
+.chip-link::after { content: " ↗"; font-size: 9px; opacity: .5; }
+.chip-link:hover { border-color: var(--wiki-accent); color: var(--wiki-accent); text-decoration: none; }
+.dark .chip-link { color: var(--wiki-accent2); }
+.dark .chip-link:hover { box-shadow: 0 0 10px -4px var(--wiki-glow); }
+
+/* ================================================================
+   PAGE TRANSITION (路由淡入)
+   ================================================================ */
+.page-fade { animation: pageFade .28s ease both; }
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ================================================================
+   LIGHT MODE refinements (一套浅色 token)
+   ================================================================ */
+.light { background: #eef1f8; color: #1f2733; }
+.light .ant-layout { background: transparent !important; }
+.light .ant-layout-content { position: relative; z-index: 1; }
+.light .ant-layout-sider {
+  background: linear-gradient(180deg, #ffffff, #f1f4fb) !important;
+  border-color: rgba(15,23,42,.07) !important;
+}
+.light .ant-menu-inline { background: transparent !important; border-inline-end: none !important; }
+.light .ant-menu-item { border-radius: 8px !important; margin: 2px 8px !important; }
+.light .ant-menu-item-selected { box-shadow: inset 3px 0 0 var(--wiki-accent); font-weight: 600; }
+.light .ant-layout-header { background: rgba(255,255,255,.9) !important; }
+.light .ant-card { border: 1px solid rgba(15,23,42,.07) !important; box-shadow: 0 1px 3px rgba(15,23,42,.05) !important; }
+.light .ant-card-hoverable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(15,23,42,.1) !important; border-color: rgba(91,124,255,.3) !important;
+}
+.light .ant-table-thead > tr > th {
+  background: #eff3fb !important; color: #5b6675 !important;
+  text-transform: uppercase; font-size: 12px !important; letter-spacing: .5px; font-weight: 600 !important;
+}
+.light h2.ant-typography, .light h3.ant-typography { position: relative; padding-left: 14px; }
+.light h2.ant-typography::before, .light h3.ant-typography::before {
+  content: ""; position: absolute; left: 0; top: .2em; bottom: .2em;
+  width: 3px; border-radius: 3px; background: var(--wiki-accent);
+}
+.light .stat-row .ant-statistic-content-value {
+  font-size: 28px !important; font-weight: 700 !important;
+  background: linear-gradient(135deg, #4b6cff, #7d5cff);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.light .cat-card.ant-card { position: relative; overflow: hidden; }
+.light .cat-card.ant-card::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--wiki-accent), transparent);
+  opacity: 0; transition: opacity .2s;
+}
+.light .cat-card.ant-card:hover::before { opacity: .7; }
+.light .toc-jump { background: rgba(255,255,255,.86); border-color: rgba(15,23,42,.08); }
+.light .name-pills a { background: #fff; border: 1px solid rgba(15,23,42,.08); color: #5b6675; }
+.light .name-pills a:hover { border-color: var(--wiki-accent); color: var(--wiki-accent); }
+.light .chip { background: #eef1f8; border-color: rgba(15,23,42,.1); color: #3a4256; }
+.light ::-webkit-scrollbar-thumb { background: rgba(15,23,42,.18); }
 
 /* ================================================================
    SCROLLBAR
