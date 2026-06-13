@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Typography, Alert, Image } from 'antd'
 import { PageHeader, NamePills } from '../components/common'
+import { LazyImage } from '../components/LazyImage'
 import { tasksAtlas, imgUrl } from '../data'
 
 const { Title } = Typography
@@ -31,7 +32,7 @@ export default function Tasks() {
         <div className="atlas-grid">
           {tasksAtlas.pages.map((pg) => (
             <div className="atlas-card" key={pg.page} id={`tp${pg.page}`}>
-              <Image src={imgUrl('tasks', pg.img)} alt={`第${pg.page}页`} loading="lazy" style={{ display: 'block' }} />
+              <LazyImage src={imgUrl('tasks', pg.img)} alt={`第${pg.page}页`} imgStyle={{ display: 'block', width: '100%' }} minHeight={200} />
               <div className="cap">第 {pg.page} 页</div>
             </div>
           ))}

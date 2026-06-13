@@ -1,5 +1,6 @@
 import { Typography, Table, Alert, Image } from 'antd'
 import { PageHeader, NamePills } from '../components/common'
+import { LazyImage } from '../components/LazyImage'
 import { equipment, imgUrl } from '../data'
 
 const { Title } = Typography
@@ -42,7 +43,7 @@ export default function Equipment() {
         <div className="atlas-grid">
           {equipment.map((e) => (
             <div className="atlas-card" key={e.page} id={`eq${e.page}`}>
-              <Image src={imgUrl('equip', e.img)} alt={e.title} loading="lazy" style={{ display: 'block' }} />
+              <LazyImage src={imgUrl('equip', e.img)} alt={e.title} imgStyle={{ display: 'block', width: '100%' }} minHeight={200} />
               <div className="cap">{e.title}</div>
             </div>
           ))}

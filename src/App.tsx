@@ -10,6 +10,7 @@ import zhCN from 'antd/locale/zh_CN'
 import { searchIndex } from './data'
 import { ELEMENTS } from './elements'
 import { ElementFilterProvider, useElementFilter } from './ElementFilter'
+import { PetModalProvider } from './PetModal'
 
 import Home from './pages/Home'
 import Guide from './pages/Guide'
@@ -213,6 +214,7 @@ export default function App() {
       }}
     >
      <ElementFilterProvider>
+      <PetModalProvider>
       <Layout style={{ minHeight: '100vh' }} className={dark ? 'dark' : 'light'}>
         {!isMobile && (
           <Sider
@@ -297,6 +299,7 @@ export default function App() {
         </Drawer>
         <AiAssistant />
       </Layout>
+      </PetModalProvider>
      </ElementFilterProvider>
     </ConfigProvider>
   )

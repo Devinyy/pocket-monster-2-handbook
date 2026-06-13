@@ -104,3 +104,22 @@ export function petLink(name: string): string | null {
   if (k.length < 2) return null
   return petLinkMap[k] || null
 }
+
+// ---------------- 宠物名 → 完整宠物对象（用于详情弹窗） ----------------
+export interface FoundPet { pet: PetDetail; series: string; seriesIndex: number }
+const petByKey: Record<string, FoundPet> = {}
+petsDetail.forEach((s, i) => {
+  s.pets.forEach((p) => {
+    const fp: FoundPet = { pet: p, series: s.series, seriesIndex: i }
+    const full = normName(p.name)
+    if (!petByKey[full]) petByKey[full] = fp
+    const after = p.name.includes('：') ? p.name.split('：').pop()! : p.name
+    const k = normName(after)
+    if (k.length >= 2 && !petByKey[k]) petByKey[k] = fp
+  })
+})
+export function findPet(name: string): FoundPet | null {
+  const k = normName(name.replace(/\(.*?\)|（.*?）/g, ''))
+  if (k.length < 2) return null
+  return petByKey[k] || null
+}

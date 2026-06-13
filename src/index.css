@@ -485,6 +485,30 @@ img { max-width: 100%; }
 }
 
 /* ================================================================
+   IMAGE SKELETON (骨架屏)
+   ================================================================ */
+.img-skeleton {
+  position: absolute; inset: 0; width: 100%; border-radius: 8px;
+  background: linear-gradient(90deg, rgba(127,127,127,.08) 25%, rgba(127,127,127,.16) 37%, rgba(127,127,127,.08) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+.dark .img-skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,.04) 25%, rgba(255,255,255,.09) 37%, rgba(255,255,255,.04) 63%);
+  background-size: 400% 100%;
+}
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+/* ================================================================
+   JUMPBAR SCROLLSPY 高亮
+   ================================================================ */
+.toc-jump .jump-pill.active {
+  background: var(--wiki-accent); color: #fff !important;
+  border-color: var(--wiki-accent);
+}
+.dark .toc-jump .jump-pill.active { box-shadow: 0 0 12px -2px var(--wiki-glow); }
+
+/* ================================================================
    LIGHT MODE refinements (一套浅色 token)
    ================================================================ */
 .light { background: #eef1f8; color: #1f2733; }
