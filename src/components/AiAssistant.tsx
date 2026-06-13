@@ -11,7 +11,7 @@ const AVATAR_URL = `${import.meta.env.BASE_URL}ai-avatar.gif`
 
 const WELCOME: Msg = {
   role: 'assistant',
-  content: '你好！我是《口袋怪兽2》攻略助手 🐲\n可以问我宠物合成/涅槃公式、专属任务、地图掉落、装备搭配、伤害计算等问题。',
+  content: '你好！我是《口袋怪兽2》攻略助手 **冰波姆** ❄️\n可以问我宠物合成/涅槃公式、专属任务、地图掉落、装备搭配、伤害计算等问题。',
 }
 const SAMPLES = ['小神龙琅琊怎么合成？', '玄冰仙使合成链', '红石块在哪刷？', '涅槃需要什么材料？']
 
@@ -110,7 +110,7 @@ export default function AiAssistant() {
     <>
       {!open && (
         <button
-          title="AI 攻略助手"
+          title="冰波姆 · 攻略助手"
           onClick={() => setOpen(true)}
           style={{
             position: 'fixed', insetInlineEnd: 28, insetBlockEnd: 28, zIndex: 1000,
@@ -121,7 +121,7 @@ export default function AiAssistant() {
           }}
         >
           {avatarOk
-            ? <img src={AVATAR_URL} alt="AI 攻略助手" style={{ width: 52, height: 52, objectFit: 'contain' }} />
+            ? <img src={AVATAR_URL} alt="冰波姆 · 攻略助手" style={{ width: 52, height: 52, objectFit: 'contain' }} />
             : <RobotOutlined style={{ color: '#fff', fontSize: 24 }} />}
         </button>
       )}
@@ -144,8 +144,8 @@ export default function AiAssistant() {
               ? <Avatar size={30} src={AVATAR_URL} />
               : <Avatar size={30} icon={<RobotOutlined />} style={{ background: 'rgba(255,255,255,.25)' }} />}
             <div style={{ flex: 1, lineHeight: 1.2 }}>
-              <div style={{ fontWeight: 600 }}>口袋怪兽2 · AI 助手</div>
-              <div style={{ fontSize: 11, opacity: 0.85 }}>基于站内攻略资料回答</div>
+              <div style={{ fontWeight: 600 }}>冰波姆 · 攻略助手</div>
+              <div style={{ fontSize: 11, opacity: 0.85 }}>口袋怪兽2 · 基于站内资料回答</div>
             </div>
             <Button type="text" icon={<CloseOutlined />} onClick={() => setOpen(false)} style={{ color: '#fff' }} />
           </div>
