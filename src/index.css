@@ -509,6 +509,92 @@ img { max-width: 100%; }
 .dark .toc-jump .jump-pill.active { box-shadow: 0 0 12px -2px var(--wiki-glow); }
 
 /* ================================================================
+   GLASS THEME — 全屏风景背景 + 磨砂玻璃区块
+   ================================================================ */
+body {
+  background: url('/kdjl2-wiki-bg.png') center center / cover no-repeat fixed !important;
+}
+/* Layout 自身透明，露出 body 背景图 */
+.dark, .light { background: transparent !important; }
+.dark .ant-layout, .light .ant-layout { background: transparent !important; }
+/* 主题遮罩(scrim)：压暗/提亮背景，保证文字可读 */
+.dark::before, .light::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+}
+.dark::before { background: rgba(8, 12, 20, .5); }
+.light::before { background: rgba(243, 247, 252, .3); }
+/* 内容在 scrim 之上 */
+.dark .ant-layout-content, .light .ant-layout-content { position: relative; z-index: 1; }
+/* 暗色网格纹理太杂，叠在图上几乎隐去 */
+.dark::after { opacity: .015; }
+
+/* —— 卡片 / 弹窗 / 抽屉 磨砂玻璃 —— */
+.dark .ant-card, .dark .atlas-card, .dark .ant-modal-content, .dark .ant-drawer-content {
+  background: rgba(17, 23, 37, .52) !important;
+  backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border-color: rgba(255, 255, 255, .1) !important;
+}
+.light .ant-card, .light .atlas-card, .light .ant-modal-content, .light .ant-drawer-content {
+  background: rgba(255, 255, 255, .62) !important;
+  backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border-color: rgba(255, 255, 255, .55) !important;
+}
+/* 统计卡 / 分类卡保持各自渐变描边，但也透出背景 */
+.dark .stat-row .ant-card { background: rgba(20, 27, 44, .55) !important; }
+.light .stat-row .ant-card { background: rgba(255, 255, 255, .6) !important; }
+
+/* —— 侧栏 / 顶栏 —— */
+.dark .ant-layout-sider {
+  background: rgba(11, 15, 24, .55) !important;
+  backdrop-filter: blur(18px) saturate(1.1); -webkit-backdrop-filter: blur(18px) saturate(1.1);
+}
+.light .ant-layout-sider {
+  background: rgba(255, 255, 255, .58) !important;
+  backdrop-filter: blur(18px) saturate(1.1); -webkit-backdrop-filter: blur(18px) saturate(1.1);
+}
+.dark .ant-layout-header {
+  background: rgba(9, 13, 21, .42) !important;
+  backdrop-filter: blur(18px) saturate(1.1); -webkit-backdrop-filter: blur(18px) saturate(1.1);
+}
+.light .ant-layout-header {
+  background: rgba(255, 255, 255, .5) !important;
+  backdrop-filter: blur(18px) saturate(1.1); -webkit-backdrop-filter: blur(18px) saturate(1.1);
+}
+
+/* —— 表格 玻璃 —— */
+.dark .ant-table {
+  background: rgba(17, 23, 37, .42) !important;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+}
+.light .ant-table {
+  background: rgba(255, 255, 255, .55) !important;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+}
+.dark .ant-table-thead > tr > th { background: rgba(255, 255, 255, .05) !important; }
+.light .ant-table-thead > tr > th { background: rgba(0, 0, 0, .04) !important; }
+.ant-card .ant-table { backdrop-filter: none; -webkit-backdrop-filter: none; background: transparent !important; }
+
+/* —— Alert 玻璃 —— */
+.dark .ant-alert {
+  background: rgba(17, 23, 37, .45) !important;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.light .ant-alert {
+  background: rgba(255, 255, 255, .58) !important;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.dark .ant-alert-info { background: rgba(91, 124, 255, .16) !important; }
+.dark .ant-alert-warning { background: rgba(250, 173, 20, .16) !important; }
+
+/* —— toc-jump 玻璃 —— */
+.dark .toc-jump { background: rgba(14, 19, 30, .5) !important; }
+.light .toc-jump { background: rgba(255, 255, 255, .55) !important; }
+
+/* AI 面板顶栏与气泡微调透出感无需改动 */
+
+/* ================================================================
    LIGHT MODE refinements (一套浅色 token)
    ================================================================ */
 .light { background: #eef1f8; color: #1f2733; }
