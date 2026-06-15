@@ -43,18 +43,39 @@ const DOMAIN_KEYWORDS = [
   // 本服活动 / 公告相关
   '活动', '月度', '返利', '排行榜', '涅槃月', '抢购', '红利', '限时', '公告', '六一', '端午',
   '清明', '周年庆', '劳动节', '圣诞', '元宝', '水晶', '大宝鉴', '顶贴', '萌新', '本服', '逐光',
-  '挂机', '游戏网址', '论坛', '注册', '群主', '消费', '奖励',
+  '挂机', '游戏网址', '论坛', '群主', '消费', '奖励', '传承', '强化', '镶嵌', '威望', '家族',
 ]
 
 function terms2(query: string): string[] {
   return terms(query).filter((t) => t.length >= 2) // 仅二元词，过滤单字噪音
 }
 
-// 是否与本 Wiki 相关：命中领域关键词，或与检索到的资料有 ≥2 个二元词重合
+// 过于通用的二元词，不纳入领域词集（避免无关提问误命中）
+const STOP_BIGRAMS = new Set([
+  '可以', '以及', '一个', '什么', '怎么', '获取', '获得', '方式', '参考', '说明',
+  '介绍', '资料', '更新', '系列', '所有', '没有', '使用', '可在', '通过', '以上', '以下',
+])
+
+// 从知识库「标题」自动派生领域词集：覆盖全站宠物/地图/物品/章节/活动等命名实体，
+// 内容更新(npm run kb)后自动同步，无需手工维护关键词。
+const DOMAIN_SET: Set<string> = (() => {
+  const s = new Set<string>()
+  for (const c of KB) {
+    const t = (c.t || '').replace(/[^一-龥]/g, '')
+    for (let i = 0; i + 2 <= t.length; i++) {
+      const bg = t.slice(i, i + 2)
+      if (!STOP_BIGRAMS.has(bg)) s.add(bg)
+    }
+  }
+  return s
+})()
+
+// 是否与本 Wiki 相关：命中人工关键词 / 知识库标题派生词 / 与检索资料有 ≥2 个二元词重合
 function isOnTopic(query: string, context: Chunk[]): boolean {
   const q = query.toLowerCase()
   for (const kw of DOMAIN_KEYWORDS) if (q.includes(kw)) return true
   const ts = terms2(query)
+  for (const t of ts) if (DOMAIN_SET.has(t)) return true
   for (const c of context) {
     const hay = (c.t + ' ' + c.x).toLowerCase()
     let hit = 0
