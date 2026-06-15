@@ -3,7 +3,7 @@ import { LinkOutlined } from '@ant-design/icons'
 import { PageHeader } from '../components/common'
 import {
   SERVER_LINKS, REGISTER_TIPS, SERVER_FEATURES_DETAIL, SERVER_MECHANICS,
-  MONTHLY_ACTIVITIES, ACTIVITY_COMMON, PURCHASE_NOTES, UPDATE_NOTES,
+  MONTHLY_ACTIVITIES, PURCHASE_NOTES, UPDATE_NOTES,
 } from '../data/server'
 
 const { Title, Paragraph } = Typography
@@ -49,18 +49,6 @@ export default function Activities() {
                 </div>
               ))}
             </Card>
-          </Col>
-        ))}
-      </Row>
-
-      {/* 活动通用奖励规则（完整） */}
-      <Title level={3} id="common" style={{ marginTop: 26 }}>活动通用奖励规则</Title>
-      <Alert type="warning" showIcon style={{ marginBottom: 14 }}
-        message="以下消费排行榜、消费返利、成长增长排行榜（额外）规则在各月活动中通用，门槛见各月说明。" />
-      <Row gutter={[14, 14]}>
-        {ACTIVITY_COMMON.map((b) => (
-          <Col xs={24} md={8} key={b.title}>
-            <Card size="small" title={b.title} style={{ height: '100%' }}><Bullets items={b.items} /></Card>
           </Col>
         ))}
       </Row>
