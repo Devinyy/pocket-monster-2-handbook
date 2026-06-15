@@ -7,6 +7,7 @@
   "scripts": {
     "data": "python3 tools/export_data.py",
     "pets": "python3 tools/build_pets_detail.py",
+    "sync": "node tools/sync_forum.mjs",
     "kb": "python3 tools/export_knowledge.py",
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

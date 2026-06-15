@@ -429,6 +429,17 @@ def build_forum():
             continue  # 跳过 H1 标题段
         title = sec.splitlines()[0].strip()
         chunk(f'forum-{i}', f'逐光服 · {title}', '本服活动', '## ' + sec, '逐光服论坛')
+    # 论坛原文（由 sync_forum.mjs 自动同步），逐帖入库，保证新帖自动进知识库与词表
+    fpath = os.path.join(SRC, 'forum.json')
+    if os.path.exists(fpath):
+        with open(fpath, encoding='utf-8') as f:
+            posts = json.load(f)
+        for p in posts:
+            txt = (p.get('text') or '').strip()
+            if not txt:
+                continue
+            chunk(f"forumraw-{p['id']}", f"论坛 · {p.get('title','')}", '本服活动',
+                  f"{p.get('title','')}（{p.get('date','')}）\n{txt}", '逐光服论坛原帖')
 
 def build_maps():
     src = os.path.join(ROOT, 'docs', 'ziliao', '地图怪物掉落与养号攻略.md')

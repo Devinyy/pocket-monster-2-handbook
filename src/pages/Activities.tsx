@@ -1,12 +1,15 @@
-import { Typography, Card, Alert, Tag, Row, Col, Button } from 'antd'
+import { Typography, Card, Alert, Tag, Row, Col, Button, Collapse } from 'antd'
 import { LinkOutlined } from '@ant-design/icons'
 import { PageHeader } from '../components/common'
 import {
   SERVER_LINKS, REGISTER_TIPS, SERVER_FEATURES_DETAIL, SERVER_MECHANICS,
   MONTHLY_ACTIVITIES, PURCHASE_NOTES, UPDATE_NOTES,
 } from '../data/server'
+import forumPosts from '../data/forum.json'
 
 const { Title, Paragraph } = Typography
+interface ForumPost { id: string; title: string; date: string; text: string }
+const FORUM = forumPosts as ForumPost[]
 
 const Bullets = ({ items }: { items: string[] }) => (
   <ul style={{ margin: 0, paddingLeft: 18 }}>
@@ -86,8 +89,24 @@ export default function Activities() {
         </Col>
       </Row>
 
+      {/* 最新论坛原文（由定时任务自动同步） */}
+      {FORUM.length > 0 && (
+        <>
+          <Title level={3} id="forum" style={{ marginTop: 26 }}>最新论坛原文</Title>
+          <Alert type="info" showIcon style={{ marginBottom: 14 }}
+            message="以下为论坛帖子原文，由定时任务自动同步，点击展开查看完整内容。" />
+          <Collapse
+            items={FORUM.map((p) => ({
+              key: p.id,
+              label: <span>{p.title} {p.date && <Tag style={{ marginInlineStart: 6 }}>{p.date}</Tag>}</span>,
+              children: <div style={{ whiteSpace: 'pre-wrap', fontSize: 13, lineHeight: 1.8 }}>{p.text || '（无正文）'}</div>,
+            }))}
+          />
+        </>
+      )}
+
       <Paragraph type="secondary" style={{ marginTop: 16, fontSize: 12 }}>
-        进阶合成 / 涅槃公式见 <a href="#/synthesis">合成 · 涅槃</a> 页「逐光服进阶公式」。资料整理自论坛，可能随版本更新。
+        进阶合成 / 涅槃公式见 <a href="#/synthesis">合成 · 涅槃</a> 页「逐光服进阶公式」。资料由论坛定时同步，可能随版本更新。
       </Paragraph>
     </div>
   )

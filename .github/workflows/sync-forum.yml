@@ -1,0 +1,49 @@
+name: Sync forum data
+
+# 定时抓取论坛 → 更新 src/data/forum.json 与知识库 → 有变化则提交
+# Cloudflare 连接本仓库会在 push 后自动重新构建部署；AI 词表会随知识库自动刷新。
+on:
+  schedule:
+    - cron: '0 18 * * *'   # 每天 UTC 18:00（北京时间 02:00）
+  workflow_dispatch: {}     # 也可在 Actions 页手动触发
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-forum
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch forum -> forum.json
+        run: node tools/sync_forum.mjs
+
+      - name: Rebuild knowledge base (含论坛原帖)
+        run: python3 tools/export_knowledge.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain src/data/forum.json src/data/knowledge.json knowledge/)" ]; then
+            git add src/data/forum.json src/data/knowledge.json knowledge/
+            git commit -m "chore(sync): 定时同步论坛数据与知识库 [skip ci]"
+            git push
+            echo "changes pushed"
+          else
+            echo "no changes"
+          fi
