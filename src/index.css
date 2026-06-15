@@ -513,8 +513,12 @@ img { max-width: 100%; }
 /* ================================================================
    GLASS THEME — 全屏风景背景 + 磨砂玻璃区块
    ================================================================ */
-body {
-  background: url('/kdjl2-wiki-bg.webp') center center / cover no-repeat fixed !important;
+/* 固定背景层：position:fixed 伪元素，始终铺满视口且为独立合成层
+   —— 避免 iOS background-attachment:fixed 抖动，同时移动端下滚不会露灰底 */
+body { background: transparent !important; }
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -10;
+  background: url('/kdjl2-wiki-bg.webp') center center / cover no-repeat;
 }
 /* Layout 自身透明，露出 body 背景图 */
 .dark, .light { background: transparent !important; }
@@ -598,8 +602,6 @@ body {
 
 /* —— 移动端降模糊（避免大量卡片 backdrop-filter 卡顿） —— */
 @media (max-width: 768px) {
-  /* 固定背景在移动端易抖动，改为随页面滚动 */
-  body { background-attachment: scroll !important; }
   /* 卡片/表格/Alert/图集 取消模糊，改用更高不透明度保证可读 */
   .dark .ant-card, .dark .atlas-card, .dark .ant-table, .dark .ant-alert,
   .dark .ant-modal-content, .dark .ant-drawer-content {
