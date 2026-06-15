@@ -1,4 +1,5 @@
 import { Typography, Card, Table, Alert, Tag, Row, Col } from 'antd'
+import { RiseOutlined, NodeIndexOutlined } from '@ant-design/icons'
 import { PageHeader, FormulaList, Gallery } from '../components/common'
 import {
   synthesisGroups, nirvanaGroup, marusChain, xuanbingChain,
@@ -35,7 +36,7 @@ export default function Synthesis() {
 
       <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
         <Col xs={24} md={12} id="marus">
-          <Card size="small" title="🐴 幼年★马鲁斯 成长记" style={{ height: '100%' }}>
+          <Card size="small" title={<span><RiseOutlined /> 幼年★马鲁斯 成长记</span>} style={{ height: '100%' }}>
             <Paragraph strong style={{ marginBottom: 4 }}>合成</Paragraph>
             <FormulaList rows={marusChain.synth} />
             <Paragraph strong style={{ margin: '8px 0 4px' }}>涅槃</Paragraph>
@@ -43,7 +44,7 @@ export default function Synthesis() {
           </Card>
         </Col>
         <Col xs={24} md={12} id="xuanbing">
-          <Card size="small" title="❄️ 玄冰仙使 合成链" style={{ height: '100%' }}>
+          <Card size="small" title={<span><NodeIndexOutlined /> 玄冰仙使 合成链</span>} style={{ height: '100%' }}>
             <FormulaList rows={xuanbingChain} />
             <Alert type="info" style={{ marginTop: 8 }}
               message="华尔兹宝宝由「华尔兹之舞」兑换任务进化；玄冰仙使专属任务需要【极寒之凝光】。" />

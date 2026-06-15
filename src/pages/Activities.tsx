@@ -1,5 +1,6 @@
 import { Typography, Card, Alert, Tag, Row, Col, Button, Collapse } from 'antd'
-import { LinkOutlined } from '@ant-design/icons'
+import { LinkOutlined, PlayCircleOutlined, CommentOutlined, ToolOutlined } from '@ant-design/icons'
+import type { ReactNode } from 'react'
 import { PageHeader } from '../components/common'
 import {
   SERVER_LINKS, REGISTER_TIPS, SERVER_FEATURES_DETAIL, SERVER_MECHANICS,
@@ -10,6 +11,12 @@ import forumPosts from '../data/forum.json'
 const { Title, Paragraph } = Typography
 interface ForumPost { id: string; title: string; date: string; text: string }
 const FORUM = forumPosts as ForumPost[]
+
+const LINK_ICONS: Record<string, ReactNode> = {
+  game: <PlayCircleOutlined />,
+  forum: <CommentOutlined />,
+  tool: <ToolOutlined />,
+}
 
 const Bullets = ({ items }: { items: string[] }) => (
   <ul style={{ margin: 0, paddingLeft: 18 }}>
@@ -28,7 +35,7 @@ export default function Activities() {
         {SERVER_LINKS.map((l) => (
           <Col xs={24} sm={8} key={l.label}>
             <Card size="small" style={{ height: '100%' }}>
-              <div style={{ fontSize: 24 }}>{l.icon}</div>
+              <div style={{ fontSize: 24, color: 'var(--wiki-accent2, #7b9aff)' }}>{LINK_ICONS[l.icon]}</div>
               <div style={{ fontWeight: 700, fontSize: 15, margin: '6px 0 2px' }}>{l.label}</div>
               <div className="card-desc" style={{ marginTop: 0, marginBottom: 10 }}>{l.desc}</div>
               <Button type="primary" size="small" icon={<LinkOutlined />} href={l.url} target="_blank" rel="noreferrer">打开</Button>

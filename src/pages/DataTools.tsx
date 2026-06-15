@@ -1,4 +1,5 @@
 import { Typography, Table, Alert, Tabs, Tag, Input } from 'antd'
+import { RiseOutlined, DollarOutlined, ThunderboltOutlined, StarOutlined } from '@ant-design/icons'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { PageHeader } from '../components/common'
@@ -70,11 +71,11 @@ export default function DataTools() {
         onChange={setActive}
         items={[
           {
-            key: 'exp', label: '⏫ 等级经验表',
+            key: 'exp', label: <span><RiseOutlined /> 等级经验表</span>,
             children: <div id="exp"><ExpTable /></div>,
           },
           {
-            key: 'price', label: '💰 物价参考',
+            key: 'price', label: <span><DollarOutlined /> 物价参考</span>,
             children: (
               <div id="price">
                 <Alert type="warning" showIcon style={{ marginBottom: 10 }}
@@ -90,7 +91,7 @@ export default function DataTools() {
             ),
           },
           {
-            key: 'dmg', label: '⚔️ 伤害计算器',
+            key: 'dmg', label: <span><ThunderboltOutlined /> 伤害计算器</span>,
             children: (
               <div id="dmg">
                 <DamageCalc />
@@ -108,7 +109,7 @@ export default function DataTools() {
             ),
           },
           {
-            key: 'nirvana', label: `❄️ 涅槃加成名单 (${nirvanaPets.length})`,
+            key: 'nirvana', label: <span><StarOutlined /> 涅槃加成名单 ({nirvanaPets.length})</span>,
             children: (
               <div id="nirvana">
                 <Alert type="info" showIcon style={{ marginBottom: 10 }}

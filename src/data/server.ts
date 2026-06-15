@@ -1,9 +1,9 @@
 // 逐光服 · 本服公告 / 活动 / 链接（整理自论坛 124.221.144.95:121/t/zhuguang，内容写全不缩写）
 
 export const SERVER_LINKS = [
-  { label: '游戏网址', url: 'http://124.221.144.95:10000/', desc: '浏览器直接进入（电脑 / 手机 / Mac）', icon: '🎮' },
-  { label: '论坛', url: 'http://124.221.144.95:121/', desc: '口袋黑盒 · 逐光服公告板', icon: '💬' },
-  { label: '时空挂机软件', url: 'https://wwse.lanzouc.com/b04q0a75i', desc: '需 3844 以上版本 · 提取密码：hxza', icon: '🛠️' },
+  { label: '游戏网址', url: 'http://124.221.144.95:10000/', desc: '浏览器直接进入（电脑 / 手机 / Mac）', icon: 'game' },
+  { label: '论坛', url: 'http://124.221.144.95:121/', desc: '口袋黑盒 · 逐光服公告板', icon: 'forum' },
+  { label: '时空挂机软件', url: 'https://wwse.lanzouc.com/b04q0a75i', desc: '需 3844 以上版本 · 提取密码：hxza', icon: 'tool' },
 ]
 
 // 区服信息 / 新手须知（写全）

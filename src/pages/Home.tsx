@@ -1,35 +1,45 @@
 import { Card, Col, Row, Typography, Statistic, Tag } from 'antd'
+import {
+  RocketOutlined, ExperimentOutlined, BugOutlined, ThunderboltOutlined,
+  ScheduleOutlined, EnvironmentOutlined, FireOutlined, SafetyOutlined,
+  CalculatorOutlined, CompassOutlined, HeartOutlined, HomeOutlined,
+  ProfileOutlined, BankOutlined, MoneyCollectOutlined, TrophyOutlined,
+  AppstoreOutlined, GiftOutlined, NotificationOutlined, ArrowRightOutlined,
+} from '@ant-design/icons'
+import type { ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { petsDetail, newpets, boss, exp } from '../data'
 
 const { Title, Paragraph } = Typography
 
-const CATS = [
-  { path: '/guide', emoji: '🌱', title: '新手入门', desc: '充值 / 交易 / 合成 / 涅槃 / 装备全流程' },
-  { path: '/synthesis', emoji: '⚗️', title: '合成 · 涅槃', desc: '全套合成与涅槃公式、养成专题链' },
-  { path: '/pets', emoji: '🐲', title: '宠物图鉴', desc: '仙侠 / 女神 / 封神 / 三国 系列大百科' },
-  { path: '/newpets', emoji: '✨', title: '新宠技能库', desc: '超神宠与卡片宠技能详情、获取方式' },
-  { path: '/tasks', emoji: '📜', title: '专属任务', desc: '各神宠专属任务完整步骤' },
-  { path: '/maps', emoji: '🗺️', title: '地图图鉴', desc: '地图怪物掉落 · 副本 · 材料速查养号' },
-  { path: '/boss', emoji: '👹', title: 'BOSS 图鉴', desc: '三大区域 BOSS 与各难度血量' },
-  { path: '/equipment', emoji: '🛡️', title: '装备 · 卡片', desc: '逐光服全套装 / 卡套与搭配参考' },
-  { path: '/data', emoji: '📊', title: '数值工具', desc: '经验表 · 物价 · 伤害公式' },
+const CATS: { path: string; icon: ReactNode; title: string; desc: string }[] = [
+  { path: '/guide', icon: <RocketOutlined />, title: '新手入门', desc: '充值 / 交易 / 合成 / 涅槃 / 装备全流程' },
+  { path: '/synthesis', icon: <ExperimentOutlined />, title: '合成 · 涅槃', desc: '全套合成与涅槃公式、养成专题链' },
+  { path: '/pets', icon: <BugOutlined />, title: '宠物图鉴', desc: '仙侠 / 女神 / 封神 / 三国 系列大百科' },
+  { path: '/newpets', icon: <ThunderboltOutlined />, title: '新宠技能库', desc: '超神宠与卡片宠技能详情、获取方式' },
+  { path: '/tasks', icon: <ScheduleOutlined />, title: '专属任务', desc: '各神宠专属任务完整步骤' },
+  { path: '/maps', icon: <EnvironmentOutlined />, title: '地图图鉴', desc: '地图怪物掉落 · 副本 · 材料速查养号' },
+  { path: '/boss', icon: <FireOutlined />, title: 'BOSS 图鉴', desc: '三大区域 BOSS 与各难度血量' },
+  { path: '/equipment', icon: <SafetyOutlined />, title: '装备 · 卡片', desc: '逐光服全套装 / 卡套与搭配参考' },
+  { path: '/data', icon: <CalculatorOutlined />, title: '数值工具', desc: '经验表 · 物价 · 伤害公式' },
 ]
 
-const FEATURES = [
-  { emoji: '🗺️', t: '野外探险', d: '回合制战斗，多种地图，手动/自动战斗，捕捉宠物、击败 BOSS 获取道具与装备。' },
-  { emoji: '🐾', t: '宠物养成', d: '升级、进化、佩戴装备、学习技能，宠物合成与涅槃获取更多种类的神宠。' },
-  { emoji: '🏯', t: '中心城镇', d: '牧场、仓库、商店、铁匠铺、皇宫、宠物神殿等满足你的交互需求。' },
-  { emoji: '📋', t: '任务系统', d: '剧情、日常、兑换、宠物专属任务，合理搭配让游戏体验更惬意。' },
+const FEATURES: { icon: ReactNode; t: string; d: string }[] = [
+  { icon: <CompassOutlined />, t: '野外探险', d: '回合制战斗，多种地图，手动/自动战斗，捕捉宠物、击败 BOSS 获取道具与装备。' },
+  { icon: <HeartOutlined />, t: '宠物养成', d: '升级、进化、佩戴装备、学习技能，宠物合成与涅槃获取更多种类的神宠。' },
+  { icon: <HomeOutlined />, t: '中心城镇', d: '牧场、仓库、商店、铁匠铺、皇宫、宠物神殿等满足你的交互需求。' },
+  { icon: <ProfileOutlined />, t: '任务系统', d: '剧情、日常、兑换、宠物专属任务，合理搭配让游戏体验更惬意。' },
 ]
 
-const SERVER_FEATURES = [
-  { emoji: '🏯', t: '圣兽云殿', d: '可获得大量基础资源' },
-  { emoji: '💎', t: '折算元宝', d: '聊天等级和装备 5 月折算元宝' },
-  { emoji: '🏆', t: '双月涅槃', d: '排名前 100 获得元宝' },
-  { emoji: '🎮', t: '原版功能', d: '除琥珀屋和要塞外均保留' },
-  { emoji: '🎁', t: '属性祝福', d: '每月更新永久属性祝福任务' },
+const SERVER_FEATURES: { icon: ReactNode; t: string; d: string }[] = [
+  { icon: <BankOutlined />, t: '圣兽云殿', d: '可获得大量基础资源' },
+  { icon: <MoneyCollectOutlined />, t: '折算元宝', d: '聊天等级和装备 5 月折算元宝' },
+  { icon: <TrophyOutlined />, t: '双月涅槃', d: '排名前 100 获得元宝' },
+  { icon: <AppstoreOutlined />, t: '原版功能', d: '除琥珀屋和要塞外均保留' },
+  { icon: <GiftOutlined />, t: '属性祝福', d: '每月更新永久属性祝福任务' },
 ]
+
+const ICON_COLOR = 'var(--wiki-accent2, #7b9aff)'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -68,12 +78,12 @@ export default function Home() {
       <Card hoverable onClick={() => navigate('/activities')} className="cat-card"
         style={{ marginTop: 16, cursor: 'pointer' }}
         styles={{ body: { display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' } }}>
-        <span style={{ fontSize: 30 }}>📢</span>
+        <NotificationOutlined style={{ fontSize: 30, color: ICON_COLOR }} />
         <div style={{ flex: 1, minWidth: 200 }}>
           <div style={{ fontWeight: 700, fontSize: 16 }}>本服公告 · 活动</div>
           <div className="card-desc" style={{ marginTop: 2 }}>逐光服最新月度活动、特色改动、长期机制与游戏/论坛/挂机链接</div>
         </div>
-        <span style={{ color: 'var(--wiki-accent2, #7b9aff)', fontWeight: 600, whiteSpace: 'nowrap' }}>查看详情 →</span>
+        <span style={{ color: 'var(--wiki-accent2, #7b9aff)', fontWeight: 600, whiteSpace: 'nowrap' }}>查看详情 <ArrowRightOutlined /></span>
       </Card>
 
       <Row gutter={[14, 14]} style={{ marginTop: 16 }} className="stat-row">
@@ -93,7 +103,7 @@ export default function Home() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 14 }}>
         {SERVER_FEATURES.map((f) => (
           <Card key={f.t} style={{ height: '100%' }}>
-            <div style={{ fontSize: 26 }}>{f.emoji}</div>
+            <div style={{ fontSize: 26, color: ICON_COLOR }}>{f.icon}</div>
             <div style={{ fontWeight: 700, fontSize: 15, margin: '6px 0 4px' }}>{f.t}</div>
             <div className="card-desc" style={{ marginTop: 0 }}>{f.d}</div>
           </Card>
@@ -105,7 +115,7 @@ export default function Home() {
         {CATS.map((c) => (
           <Col xs={12} sm={8} md={6} key={c.path}>
             <Card hoverable onClick={() => navigate(c.path)} style={{ height: '100%' }} className="cat-card">
-              <div style={{ fontSize: 30, marginBottom: 4 }}>{c.emoji}</div>
+              <div style={{ fontSize: 30, marginBottom: 4, color: ICON_COLOR }}>{c.icon}</div>
               <div style={{ fontWeight: 700, fontSize: 15.5 }}>{c.title}</div>
               <div className="card-desc">{c.desc}</div>
             </Card>
@@ -118,7 +128,7 @@ export default function Home() {
         {FEATURES.map((f) => (
           <Col xs={24} sm={12} md={6} key={f.t}>
             <Card style={{ height: '100%' }}>
-              <div style={{ fontSize: 28 }}>{f.emoji}</div>
+              <div style={{ fontSize: 28, color: ICON_COLOR }}>{f.icon}</div>
               <div style={{ fontWeight: 700, fontSize: 15, margin: '8px 0 4px' }}>{f.t}</div>
               <div className="card-desc" style={{ marginTop: 0 }}>{f.d}</div>
             </Card>

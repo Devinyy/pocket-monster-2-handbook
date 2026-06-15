@@ -11,7 +11,7 @@ const AVATAR_URL = `${import.meta.env.BASE_URL}ai-avatar.gif`
 
 const WELCOME: Msg = {
   role: 'assistant',
-  content: '你好！我是《口袋怪兽2》攻略助手 **冰波姆** ❄️\n可以问我宠物合成/涅槃公式、专属任务、地图掉落、装备搭配、伤害计算等问题。',
+  content: '你好！我是《口袋怪兽2》攻略助手 **冰波姆**\n可以问我宠物合成/涅槃公式、专属任务、地图掉落、装备搭配、伤害计算等问题。',
 }
 const SAMPLES = ['小神龙琅琊怎么合成？', '玄冰仙使合成链', '红石块在哪刷？', '涅槃需要什么材料？']
 
@@ -97,7 +97,7 @@ export default function AiAssistant() {
         const c = m.slice()
         c[c.length - 1] = {
           role: 'assistant',
-          content: '⚠️ ' + (err?.message || '请求失败') + '\n\n（AI 需部署到 Cloudflare 并配置 DEEPSEEK_API_KEY 后才能使用；本地可用 `npx wrangler dev` 调试。）',
+          content: (err?.message || '请求失败') + '\n\n（AI 需部署到 Cloudflare 并配置 DEEPSEEK_API_KEY 后才能使用；本地可用 `npx wrangler dev` 调试。）',
         }
         return c
       })

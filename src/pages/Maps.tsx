@@ -1,5 +1,5 @@
 import { Typography, Card, Tag, Tabs, Table, Alert, Row, Col, Button } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
+import { CloseOutlined, EnvironmentOutlined, FlagOutlined, GoldOutlined } from '@ant-design/icons'
 import { PageHeader } from '../components/common'
 import { oldMaps, newMaps, dungeons, materials, farmTips, accounts } from '../data/maps'
 import type { GameMap } from '../data/maps'
@@ -65,7 +65,7 @@ export default function Maps() {
       <Tabs
         items={[
           {
-            key: 'wild', label: '🗺️ 地图怪物 & 掉落',
+            key: 'wild', label: <span><EnvironmentOutlined /> 地图怪物 & 掉落</span>,
             children: (
               <div>
                 {el
@@ -82,7 +82,7 @@ export default function Maps() {
             ),
           },
           {
-            key: 'dungeon', label: '🏰 大陆副本',
+            key: 'dungeon', label: <span><FlagOutlined /> 大陆副本</span>,
             children: (
               <div>
                 <Alert type="info" showIcon style={{ marginBottom: 14 }}
@@ -99,7 +99,7 @@ export default function Maps() {
             ),
           },
           {
-            key: 'farm', label: '💎 材料速查 & 养号',
+            key: 'farm', label: <span><GoldOutlined /> 材料速查 & 养号</span>,
             children: (
               <Row gutter={[16, 16]}>
                 <Col xs={24} md={13}>

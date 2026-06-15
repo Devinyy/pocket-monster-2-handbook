@@ -126,7 +126,7 @@ function sseMessage(text: string): Response {
   return new Response(new TextEncoder().encode(body), { headers: SSE_HEADERS })
 }
 
-const REFUSAL = '抱歉，我只能回答与《口袋怪兽2 / 口袋精灵2》攻略图鉴相关的问题，例如：宠物图鉴与技能、合成 / 涅槃公式、装备卡片、专属任务、地图怪物与掉落、经验 / 物价 / 伤害计算等。\n\n换个和本游戏相关的问题问我吧～ 🐲'
+const REFUSAL = '抱歉，我只能回答与《口袋怪兽2 / 口袋精灵2》攻略图鉴相关的问题，例如：宠物图鉴与技能、合成 / 涅槃公式、装备卡片、专属任务、地图怪物与掉落、经验 / 物价 / 伤害计算等。\n\n换个和本游戏相关的问题问我吧～'
 
 async function handleChat(request: Request, env: Env): Promise<Response> {
   if (request.method !== 'POST') {
