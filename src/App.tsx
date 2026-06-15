@@ -5,6 +5,7 @@ import {
   HomeOutlined, RocketOutlined, ExperimentOutlined, BugOutlined, FireOutlined,
   FileTextOutlined, SafetyOutlined, BarChartOutlined, ThunderboltOutlined,
   SearchOutlined, MenuOutlined, BulbOutlined, BulbFilled, EnvironmentOutlined,
+  NotificationOutlined,
 } from '@ant-design/icons'
 import zhCN from 'antd/locale/zh_CN'
 import { searchIndex } from './data'
@@ -22,6 +23,7 @@ import Maps from './pages/Maps'
 import Boss from './pages/Boss'
 import Equipment from './pages/Equipment'
 import DataTools from './pages/DataTools'
+import Activities from './pages/Activities'
 import AiAssistant from './components/AiAssistant'
 
 const { Header, Sider, Content } = Layout
@@ -31,6 +33,7 @@ const ICON = `${import.meta.env.BASE_URL}favicon.png`
 
 const MENU = [
   { key: '/', icon: <HomeOutlined />, label: '首页' },
+  { key: '/activities', icon: <NotificationOutlined />, label: '本服活动' },
   { key: '/guide', icon: <RocketOutlined />, label: '新手入门' },
   { key: '/synthesis', icon: <ExperimentOutlined />, label: '合成 · 涅槃' },
   { key: '/pets', icon: <BugOutlined />, label: '宠物图鉴' },
@@ -264,6 +267,7 @@ export default function App() {
             <div className="page-fade" key={location.pathname}>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/activities" element={<Activities />} />
                 <Route path="/guide" element={<Guide />} />
                 <Route path="/synthesis" element={<Synthesis />} />
                 <Route path="/pets" element={<Pets />} />

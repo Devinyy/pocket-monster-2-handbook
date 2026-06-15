@@ -4,6 +4,7 @@ import {
   synthesisGroups, nirvanaGroup, marusChain, xuanbingChain,
   bomuExtreme, heshenMaterials,
 } from '../data/formulas'
+import { serverFormulaGroups } from '../data/serverFormulas'
 import { galleries } from '../data'
 
 const { Title, Paragraph } = Typography
@@ -48,6 +49,20 @@ export default function Synthesis() {
               message="华尔兹宝宝由「华尔兹之舞」兑换任务进化；玄冰仙使专属任务需要【极寒之凝光】。" />
           </Card>
         </Col>
+      </Row>
+
+      <Title level={3} id="server" style={{ marginTop: 26 }}>逐光服进阶公式</Title>
+      <Alert type="info" showIcon style={{ marginBottom: 14 }}
+        message="整理自官方论坛《宠物获得方式》等帖。「任意宠」=任意副宠；「A / B」=有几率得到其一。" />
+      <Row gutter={[16, 16]}>
+        {serverFormulaGroups.map((g) => (
+          <Col xs={24} md={12} key={g.title}>
+            <Card size="small" style={{ height: '100%' }}
+              title={<span>{g.title} {g.note && <Tag color="purple">{g.note}</Tag>}</span>}>
+              <FormulaList rows={g.rows} />
+            </Card>
+          </Col>
+        ))}
       </Row>
 
       <Title level={3} id="heshen" style={{ marginTop: 26 }}>合神材料参考</Title>

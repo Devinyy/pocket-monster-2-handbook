@@ -65,7 +65,18 @@ export default function Home() {
         </div>
       </div>
 
-      <Row gutter={[14, 14]} style={{ marginTop: 20 }} className="stat-row">
+      <Card hoverable onClick={() => navigate('/activities')} className="cat-card"
+        style={{ marginTop: 16, cursor: 'pointer' }}
+        styles={{ body: { display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' } }}>
+        <span style={{ fontSize: 30 }}>📢</span>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <div style={{ fontWeight: 700, fontSize: 16 }}>本服公告 · 活动</div>
+          <div className="card-desc" style={{ marginTop: 2 }}>逐光服最新月度活动、特色改动、长期机制与游戏/论坛/挂机链接</div>
+        </div>
+        <span style={{ color: 'var(--wiki-accent2, #7b9aff)', fontWeight: 600, whiteSpace: 'nowrap' }}>查看详情 →</span>
+      </Card>
+
+      <Row gutter={[14, 14]} style={{ marginTop: 16 }} className="stat-row">
         {[
           { title: '收录宠物', value: petCount, suffix: '只' },
           { title: '新宠技能', value: skillCount, suffix: '只' },
