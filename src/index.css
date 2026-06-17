@@ -135,7 +135,7 @@ img { max-width: 100%; }
 }
 
 /* --- tabs --- */
-.dark .ant-tabs-tab { color: var(--wiki-tx3) !important; transition: color .16s !important; }
+.dark .ant-tabs-tab { color: var(--wiki-tx2) !important; transition: color .16s !important; }
 .dark .ant-tabs-tab:hover { color: var(--wiki-tx) !important; }
 .dark .ant-tabs-tab-active .ant-tabs-tab-btn { color: var(--wiki-accent) !important; font-weight: 600 !important; }
 .dark .ant-tabs-ink-bar { background: var(--wiki-accent) !important; }
