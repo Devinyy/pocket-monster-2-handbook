@@ -6,13 +6,21 @@ import {
   SERVER_LINKS, REGISTER_TIPS, SERVER_FEATURES_DETAIL, SERVER_MECHANICS,
   MONTHLY_ACTIVITIES, PURCHASE_NOTES, UPDATE_NOTES,
 } from '../data/server'
-import { getActivityPeriod, getLatestMonthlyActivity, type ForumActivityPost } from '../data/activity'
+import {
+  getActivityMonth,
+  getActivityPeriod,
+  getMissingActivityMonths,
+  getMonthlyActivities,
+  type ForumActivityPost,
+} from '../data/activity'
 import forumPosts from '../data/forum.json'
 
 const { Title, Paragraph } = Typography
 const FORUM = forumPosts as ForumActivityPost[]
-const LATEST_MONTHLY_ACTIVITY = getLatestMonthlyActivity(FORUM)
-const LATEST_MONTHLY_PERIOD = LATEST_MONTHLY_ACTIVITY ? getActivityPeriod(LATEST_MONTHLY_ACTIVITY.text) : ''
+const MONTHLY_ACTIVITY_MONTHS = ['2026.6', '2026.7', '2026.8', '2026.9', '2026.10', '2026.11']
+const FORUM_MONTHLY_ACTIVITIES = getMonthlyActivities(FORUM, MONTHLY_ACTIVITY_MONTHS)
+const MISSING_MONTHS = getMissingActivityMonths(FORUM, MONTHLY_ACTIVITY_MONTHS)
+const FORUM_MONTH_KEYS = new Set(FORUM_MONTHLY_ACTIVITIES.map((post) => getActivityMonth(post.title)))
 
 const LINK_ICONS: Record<string, ReactNode> = {
   game: <PlayCircleOutlined />,
@@ -51,25 +59,37 @@ export default function Activities() {
       {/* 月度活动（完整） */}
       <Title level={3} id="monthly" style={{ marginTop: 26 }}>月度活动</Title>
       <Row gutter={[14, 14]}>
-        {LATEST_MONTHLY_ACTIVITY && (
-          <Col xs={24}>
-            <Card
-              size="small"
-              title={(
-                <span>
-                  {LATEST_MONTHLY_ACTIVITY.title}
-                  <Tag color="geekblue">论坛同步</Tag>
-                  {LATEST_MONTHLY_PERIOD && <Tag>{LATEST_MONTHLY_PERIOD}</Tag>}
-                </span>
-              )}
-            >
-              <div style={{ whiteSpace: 'pre-wrap', fontSize: 13.5, lineHeight: 1.8 }}>
-                {LATEST_MONTHLY_ACTIVITY.text || '（无正文）'}
-              </div>
-            </Card>
-          </Col>
-        )}
-        {MONTHLY_ACTIVITIES.map((m) => (
+        {FORUM_MONTHLY_ACTIVITIES.map((activity) => {
+          const period = getActivityPeriod(activity.text)
+          return (
+            <Col xs={24} key={activity.id}>
+              <Card
+                size="small"
+                title={(
+                  <span>
+                    {activity.title}
+                    <Tag color="geekblue">论坛原帖</Tag>
+                    {period && <Tag>{period}</Tag>}
+                  </span>
+                )}
+              >
+                <div style={{ whiteSpace: 'pre-wrap', fontSize: 13.5, lineHeight: 1.8 }}>
+                  {activity.text || '（论坛原帖无正文）'}
+                </div>
+              </Card>
+            </Col>
+          )
+        })}
+        <Col xs={24}>
+          <Alert
+            type={MISSING_MONTHS.length > 0 ? 'warning' : 'success'}
+            showIcon
+            message={MISSING_MONTHS.length > 0
+              ? `论坛原帖缺少 ${MISSING_MONTHS.join('、')}，页面未补写活动内容。`
+              : '2026.6 至 2026.11 月度活动均已按论坛原帖同步。'}
+          />
+        </Col>
+        {MONTHLY_ACTIVITIES.filter((m) => !FORUM_MONTH_KEYS.has(m.month)).map((m) => (
           <Col xs={24} key={m.month}>
             <Card size="small" title={<span>{m.title} <Tag color="geekblue">{m.month}</Tag> <Tag>{m.period}</Tag></span>}>
               {m.sections.map((s) => (
